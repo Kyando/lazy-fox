@@ -4,42 +4,42 @@
   "rows": 6,
   "cols": 5,
   "grid": [
-    "YEPGO",
-    "DESFR",
-    "LISYC",
-    "BANAN",
-    "EYPFG",
-    "ARMUR"
+    "SPDYS",
+    "GEEAN",
+    "OYCIL",
+    "RFNAF",
+    "GMPRA",
+    "RUYBE"
   ],
   "pairs": [
     {
       "adjective": {
         "text": "GRUMPY",
-        "path": [24, 29, 28, 27, 22, 21]
+        "path": [20, 25, 26, 21, 22, 27]
       },
       "animal": {
         "text": "BEAR",
-        "path": [15, 20, 25, 26]
+        "path": [28, 29, 24, 23]
       }
     },
     {
       "adjective": {
         "text": "FANCY",
-        "path": [23, 18, 19, 14, 13]
+        "path": [19, 18, 17, 12, 11]
       },
       "animal": {
         "text": "FROG",
-        "path": [8, 9, 4, 3]
+        "path": [16, 15, 10, 5]
       }
     },
     {
       "adjective": {
         "text": "SPEEDY",
-        "path": [7, 2, 1, 6, 5, 0]
+        "path": [0, 1, 6, 7, 2, 3]
       },
       "animal": {
         "text": "SNAIL",
-        "path": [12, 17, 16, 11, 10]
+        "path": [4, 9, 8, 13, 14]
       }
     }
   ]

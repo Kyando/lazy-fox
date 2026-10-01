@@ -1,4 +1,4 @@
-import { findPaths, isPath, touches } from './grid.ts';
+import { adjacent, findPaths, isPath } from './grid.ts';
 import type { LevelDef } from './types.ts';
 import { ANIMALS, TRAITS } from './words.ts';
 
@@ -31,7 +31,7 @@ export function wordsOf(def: LevelDef): Word[] {
 
 /**
  * Everything a level must satisfy: every cell in exactly one word, words spelled along orthogonal
- * paths, each pair touching, and each word traceable in exactly one place (so a found word is never ambiguous).
+ * paths, each trait running into its animal, and each word traceable in exactly one place (so a found word is never ambiguous).
  */
 export function validateLevel(def: LevelDef): string[] {
   const errors: string[] = [];
@@ -61,8 +61,11 @@ export function validateLevel(def: LevelDef): string[] {
   if (owner.includes(-1)) errors.push('some cells belong to no word');
   if (errors.length) return errors;
 
-  def.pairs.forEach((pair) => {
-    if (!touches(pair.adjective.path, pair.animal.path, cols)) errors.push(`${pair.adjective.text} does not touch ${pair.animal.text}`);
+  // The trait leads straight into its animal: lazY sits next to Fox.
+  def.pairs.forEach(({ adjective, animal }) => {
+    if (!adjacent(adjective.path[adjective.path.length - 1], animal.path[0], cols)) {
+      errors.push(`${adjective.text} does not run into ${animal.text}`);
+    }
   });
   for (const w of words) {
     const n = findPaths(letters, rows, cols, w.text).length;

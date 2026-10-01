@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateLevel } from '../src/core/generate.ts';
-import { findPaths, isPath } from '../src/core/grid.ts';
+import { adjacent, findPaths, isPath } from '../src/core/grid.ts';
 import { buildPuzzle, matchTrace, validateLevel } from '../src/core/puzzle.ts';
 import type { LevelDef } from '../src/core/types.ts';
 import { Session } from '../src/game/session.ts';
@@ -33,6 +33,12 @@ describe('levels', () => {
 
   it.each(levels.map((l) => [l.id, l] as const))('%s is valid', (_, def) => {
     expect(validateLevel(def)).toEqual([]);
+  });
+
+  it.each(levels.map((l) => [l.id, l] as const))('%s chains each trait into its animal', (_, def) => {
+    for (const { adjective, animal } of def.pairs) {
+      expect(adjacent(adjective.path.at(-1)!, animal.path[0], def.cols)).toBe(true);
+    }
   });
 
   it.each(levels.map((l) => [l.id, l] as const))('%s matches its spec', (_, def) => {

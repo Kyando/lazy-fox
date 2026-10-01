@@ -34,6 +34,10 @@ export class LevelView {
   private readonly counter: HTMLElement;
   private readonly album: HTMLElement;
   private readonly albumCount: HTMLElement;
+  private readonly wordList: HTMLElement;
+  private readonly wordsCount = h('span', { class: 'album-count' });
+  /** Word chips by word index. */
+  private readonly chips: HTMLElement[] = [];
   private readonly resizeObserver: ResizeObserver;
   private trace: number[] = [];
   private gesture: { moved: boolean; onEnd: boolean } | null = null;
@@ -83,12 +87,26 @@ export class LevelView {
       h('span', { class: 'btn-label' }, 'Recomeçar'),
     );
 
+    // The words to find, in alphabetical order so the list never hints at which trait goes with which animal.
+    const sorted = [...p.words].sort((a, b) => a.text.localeCompare(b.text));
+    this.wordList = h(
+      'ul',
+      { class: 'word-list', 'aria-label': 'Palavras' },
+      ...sorted.map((w) => {
+        const chip = h('li', { class: 'word-chip' }, w.text);
+        this.chips[w.index] = chip;
+        return chip;
+      }),
+    );
+
     // The sticker album: one slot per animal + trait pair.
     this.albumCount = h('span', { class: 'album-count' });
     this.album = h('div', { class: 'album' });
     const albumPanel = h(
       'section',
-      { class: 'album-panel', 'aria-label': 'Figurinhas' },
+      { class: 'album-panel', 'aria-label': 'Palavras e figurinhas' },
+      h('header', { class: 'album-head' }, h('span', {}, 'Palavras'), this.wordsCount),
+      this.wordList,
       h('header', { class: 'album-head' }, h('span', {}, 'Figurinhas'), this.albumCount),
       h('div', { class: 'album-scroll' }, this.album),
     );
@@ -120,18 +138,21 @@ export class LevelView {
   /** Cell under a point. `strict` only counts the middle of the cell, so a drag can't cut corners. */
   private cellAt(x: number, y: number, strict: boolean): number {
     const p = this.s.puzzle;
+    // Measured from the tiles' layout (unaffected by their pop animations), so it holds even
+    // before the resize observer catches up.
     const rect = this.board.getBoundingClientRect();
-    const step = this.cellPx + this.gapPx;
+    const size = this.tiles[0].offsetWidth;
+    const step = this.tiles[1].offsetLeft - this.tiles[0].offsetLeft;
     const lx = x - rect.left;
     const ly = y - rect.top;
     const c = Math.floor(lx / step);
     const r = Math.floor(ly / step);
     if (r < 0 || c < 0 || r >= p.rows || c >= p.cols) return -1;
     if (strict) {
-      const margin = (this.cellPx * (1 - HIT)) / 2;
+      const margin = (size * (1 - HIT)) / 2;
       const ix = lx - c * step;
       const iy = ly - r * step;
-      if (ix < margin || iy < margin || ix > this.cellPx - margin || iy > this.cellPx - margin) return -1;
+      if (ix < margin || iy < margin || ix > size - margin || iy > size - margin) return -1;
     }
     return r * p.cols + c;
   }
@@ -225,7 +246,7 @@ export class LevelView {
       replay(this.tiles[c], 'pop');
     });
     this.showTrace(word.text, 'is-found', word.pair, word.role);
-    this.renderAlbum(word.pair);
+    replay(this.chips[word.index], 'pop');
     if (result.stickerDone) this.unlockSticker(word);
     else this.opts.sfx.found();
     if (result.solved) window.setTimeout(() => this.celebrate(), 650);
@@ -234,6 +255,7 @@ export class LevelView {
   private unlockSticker(word: Word): void {
     const pair = this.s.puzzle.def.pairs[word.pair];
     this.opts.sfx.sticker();
+    this.renderAlbum();
     const slot = this.album.children[word.pair] as HTMLElement;
     slot.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
     replay(slot, 'peel');
@@ -293,18 +315,23 @@ export class LevelView {
     });
     if (this.trace.length) this.showTrace(this.trace.map((c) => p.letters[c]).join(''));
     this.board.classList.toggle('is-tracing', this.trace.length > 0);
+    p.words.forEach((w) => {
+      const chip = this.chips[w.index];
+      const found = this.s.isFound(w.index);
+      chip.classList.toggle('is-found', found);
+      if (found) {
+        chip.dataset.role = w.role;
+        setPairTones(chip, w.pair);
+      }
+    });
     this.counter.textContent = `${this.s.foundCount}/${p.words.length} palavras`;
+    this.wordsCount.textContent = `${this.s.foundCount}/${p.words.length}`;
     this.albumCount.textContent = `${this.s.stickersDone}/${p.def.pairs.length}`;
     this.drawLinks();
   }
 
-  private renderAlbum(changed = -1): void {
-    const pairs = this.s.puzzle.def.pairs;
-    const slots = pairs.map((pair, i) =>
-      sticker(pair, i, { trait: this.s.isFound(i * 2), animal: this.s.isFound(i * 2 + 1) }),
-    );
-    this.album.replaceChildren(...slots);
-    if (changed >= 0) replay(slots[changed], 'pop');
+  private renderAlbum(): void {
+    this.album.replaceChildren(...this.s.puzzle.def.pairs.map((pair, i) => sticker(pair, i, this.s.stickerDone(i))));
   }
 
   /** Lines through each found word (a dot marks its first letter), plus the live trace. */

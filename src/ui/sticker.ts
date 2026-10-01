@@ -17,38 +17,35 @@ export function setPairTones(el: HTMLElement, pair: number): void {
   el.style.setProperty('--tone-line', `var(--p${p}-line)`);
 }
 
-export interface StickerState {
-  trait: boolean;
-  animal: boolean;
-}
-
 /** The sticker art alone: the animal, posed by its trait, wearing the trait's accessory. */
-export function stickerArt(pair: PairDef, state: StickerState = { trait: true, animal: true }): HTMLElement {
+export function stickerArt(pair: PairDef): HTMLElement {
   const trait = TRAITS[pair.adjective.text];
-  const animal = ANIMALS[pair.animal.text];
-  const art = h(
+  return h(
     'span',
-    { class: `sticker-art${state.trait && trait.fx ? ` fx-${trait.fx}` : ''}`, 'aria-hidden': 'true' },
-    h('span', { class: `sticker-animal${state.animal ? '' : ' is-shadow'}` }, animal.emoji),
-    state.trait ? h('span', { class: 'sticker-acc', 'data-spot': trait.spot }, trait.emoji) : null,
+    { class: `sticker-art${trait.fx ? ` fx-${trait.fx}` : ''}`, 'aria-hidden': 'true' },
+    h('span', { class: 'sticker-animal' }, ANIMALS[pair.animal.text].emoji),
+    h('span', { class: 'sticker-acc', 'data-spot': trait.spot }, trait.emoji),
   );
-  return art;
 }
 
-const blanks = (word: string, shown: boolean) =>
-  h('span', { class: `sticker-word${shown ? '' : ' is-blank'}` }, shown ? word : '•'.repeat(word.length));
-
-/** A sticker slot in the album: fills in as its two words are found. */
-export function sticker(pair: PairDef, index: number, state: StickerState): HTMLElement {
-  const done = state.trait && state.animal;
+/**
+ * A sticker slot in the album. It stays a plain question mark until both words are found,
+ * so it never gives away which trait goes with which animal.
+ */
+export function sticker(pair: PairDef, index: number, done: boolean): HTMLElement {
+  if (!done) {
+    return h(
+      'div',
+      { class: 'sticker is-locked', 'aria-label': 'Figurinha bloqueada' },
+      h('span', { class: 'sticker-art', 'aria-hidden': 'true' }, h('span', { class: 'sticker-mystery' }, '?')),
+      h('span', { class: 'sticker-name' }, '???'),
+    );
+  }
+  const name = stickerName(pair.adjective.text, pair.animal.text);
   return h(
     'div',
-    {
-      class: `sticker${done ? ' is-done' : ''}`,
-      style: pairStyle(index),
-      'aria-label': done ? stickerName(pair.adjective.text, pair.animal.text) : 'Figurinha bloqueada',
-    },
-    stickerArt(pair, state),
-    h('span', { class: 'sticker-name' }, blanks(pair.adjective.text, state.trait), ' ', blanks(pair.animal.text, state.animal)),
+    { class: 'sticker is-done', style: pairStyle(index), 'aria-label': name },
+    stickerArt(pair),
+    h('span', { class: 'sticker-name' }, name),
   );
 }

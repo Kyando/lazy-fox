@@ -5,7 +5,7 @@ export const SPECS: LevelSpec[] = [
   {
     id: 'primeiros-amigos',
     title: 'Primeiros amigos',
-    subtitle: 'Cada bicho tem uma mania escondida logo ao lado.',
+    subtitle: 'A mania vem colada no bicho: lazY → Fox.',
     rows: 4,
     cols: 4,
     pairs: [

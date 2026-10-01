@@ -1,4 +1,4 @@
-import { neighbors, touches, turns } from './grid.ts';
+import { neighbors, turns } from './grid.ts';
 import { validateLevel } from './puzzle.ts';
 import type { LevelDef } from './types.ts';
 
@@ -66,24 +66,19 @@ function subsetSum(lengths: number[], size: number): boolean {
 }
 
 /**
- * Tiles the grid with the words (sizes only; letters come later), keeping each trait next to its animal.
+ * Tiles the grid with one chain per pair (the trait's letters, then the animal's), so the trait's last
+ * letter always touches the animal's first. Only shapes here; letters come later.
  * Fills the first empty cell each step, so dead ends show up early.
  */
-function tile(texts: string[], rows: number, cols: number, rng: () => number): number[][] | null {
+function tile(lengths: number[], rows: number, cols: number, rng: () => number): number[][] | null {
   const n = rows * cols;
   const owner = new Int16Array(n).fill(-1);
-  const paths: (number[] | null)[] = texts.map(() => null);
+  const paths: (number[] | null)[] = lengths.map(() => null);
   let budget = 4000;
 
+  // Every empty region must be fillable by some of the remaining chains.
   const feasible = (): boolean => {
-    // Each placed word still waiting for its partner needs an empty cell beside it.
-    for (let w = 0; w < texts.length; w++) {
-      const path = paths[w];
-      if (!path || paths[w ^ 1]) continue;
-      if (!path.some((c) => neighbors(c, rows, cols).some((x) => owner[x] < 0))) return false;
-    }
-    // Every empty region must be fillable by some of the remaining words.
-    const remaining = texts.filter((_, w) => !paths[w]).map((t) => t.length);
+    const remaining = lengths.filter((_, i) => !paths[i]);
     const seen = new Uint8Array(n);
     for (let start = 0; start < n; start++) {
       if (owner[start] >= 0 || seen[start]) continue;
@@ -109,16 +104,14 @@ function tile(texts: string[], rows: number, cols: number, rng: () => number): n
     if (--budget < 0) return false;
     const start = owner.indexOf(-1);
     if (start < 0) return true;
-    for (const w of shuffle(texts.map((_, i) => i).filter((i) => !paths[i]), rng)) {
-      for (const cells of randomPaths(start, texts[w].length, owner, rows, cols, rng, 6)) {
-        const partner = paths[w ^ 1];
-        if (partner && !touches(cells, partner, cols)) continue;
-        cells.forEach((c) => (owner[c] = w));
+    for (const i of shuffle(lengths.map((_, k) => k).filter((k) => !paths[k]), rng)) {
+      for (const cells of randomPaths(start, lengths[i], owner, rows, cols, rng, 6)) {
+        cells.forEach((c) => (owner[c] = i));
         // The walk starts on the top-left-most empty cell; reading it backwards doubles the shapes.
-        paths[w] = rng() < 0.5 ? cells : [...cells].reverse();
+        paths[i] = rng() < 0.5 ? cells : [...cells].reverse();
         if (feasible() && place()) return true;
         cells.forEach((c) => (owner[c] = -1));
-        paths[w] = null;
+        paths[i] = null;
         if (budget < 0) return false;
       }
     }
@@ -146,8 +139,9 @@ export function generateLevel(spec: LevelSpec, seed: number, attempts = 200): Le
   let best: LevelDef | null = null;
   let bestScore = -Infinity;
   for (let i = 0; i < attempts; i++) {
-    const paths = tile(texts, rows, cols, rng);
-    if (!paths) continue;
+    const chains = tile(spec.pairs.map(([a, b]) => a.length + b.length), rows, cols, rng);
+    if (!chains) continue;
+    const paths = chains.flatMap((chain, p) => [chain.slice(0, spec.pairs[p][0].length), chain.slice(spec.pairs[p][0].length)]);
     const letters = new Array<string>(rows * cols);
     paths.forEach((path, w) => path.forEach((cell, k) => (letters[cell] = texts[w][k])));
     const def: LevelDef = {

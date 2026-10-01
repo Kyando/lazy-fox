@@ -1,34 +1,34 @@
 {
   "id": "primeiros-amigos",
   "title": "Primeiros amigos",
-  "subtitle": "Cada bicho tem uma mania escondida logo ao lado.",
+  "subtitle": "A mania vem colada no bicho: lazY → Fox.",
   "rows": 4,
   "cols": 4,
   "grid": [
-    "TAYL",
-    "CCZA",
-    "LERX",
-    "EVFO"
+    "LYFO",
+    "AZCX",
+    "ATLE",
+    "CREV"
   ],
   "pairs": [
     {
       "adjective": {
         "text": "LAZY",
-        "path": [3, 7, 6, 2]
+        "path": [0, 4, 5, 1]
       },
       "animal": {
         "text": "FOX",
-        "path": [14, 15, 11]
+        "path": [2, 3, 7]
       }
     },
     {
       "adjective": {
         "text": "CLEVER",
-        "path": [4, 8, 12, 13, 9, 10]
+        "path": [6, 10, 11, 15, 14, 13]
       },
       "animal": {
         "text": "CAT",
-        "path": [5, 1, 0]
+        "path": [12, 8, 9]
       }
     }
   ]

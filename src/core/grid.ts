@@ -25,11 +25,6 @@ export function isPath(path: number[], rows: number, cols: number): boolean {
   return path.every((c, i) => i === 0 || adjacent(path[i - 1], c, cols));
 }
 
-/** True when some cell of `a` sits next to some cell of `b`. */
-export function touches(a: number[], b: number[], cols: number): boolean {
-  return a.some((x) => b.some((y) => adjacent(x, y, cols)));
-}
-
 /** Number of direction changes along a path: 0 for a straight word. */
 export function turns(path: number[]): number {
   let count = 0;

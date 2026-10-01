@@ -152,7 +152,7 @@ export class App {
             const has = this.unlocked(entry.def.id, k);
             total++;
             if (has) owned++;
-            return sticker(pair, k, { trait: has, animal: has });
+            return sticker(pair, k, has);
           }),
         ),
       ),
@@ -187,7 +187,8 @@ export class App {
           'ul',
           {},
           h('li', {}, 'Nada de diagonal, mas as palavras podem ', h('b', {}, 'dobrar'), ': em L, em Z, até em quadrado, como peças de Tetris.'),
-          h('li', {}, 'Cada bicho tem uma ', h('b', {}, 'característica'), ' encostada nele. Ache os dois para liberar a figurinha.'),
+          h('li', {}, 'Cada bicho tem uma ', h('b', {}, 'característica'), ' que termina colada no começo dele: o Y de LAZY encosta no F de FOX. Ache os dois para liberar a figurinha.'),
+          h('li', {}, 'A lista mostra todas as palavras, mas não diz quem combina com quem.'),
           h('li', {}, 'Dá para ler a palavra nos dois sentidos, e também tocar letra por letra.'),
           h('li', {}, 'Libere todas as figurinhas para completar o nível.'),
         ),
@@ -223,7 +224,7 @@ export class App {
       body: h(
         'div',
         { class: 'win' },
-        h('div', { class: 'album win-stickers' }, ...def.pairs.map((pair, k) => sticker(pair, k, { trait: true, animal: true }))),
+        h('div', { class: 'album win-stickers' }, ...def.pairs.map((pair, k) => sticker(pair, k, true))),
         h('p', {}, `Você completou a página “${def.title}”: ${def.pairs.map((p) => stickerName(p.adjective.text, p.animal.text)).join(', ')}.`),
         h('div', { class: 'stats' }, stat(words.length, 'palavras'), stat(misses, misses === 1 ? 'erro' : 'erros')),
       ),

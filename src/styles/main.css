@@ -516,6 +516,48 @@ button {
   color: var(--ink-soft);
 }
 
+/* Words to find: found ones take their block colour. */
+.word-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 12px 4px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.word-chip {
+  padding: 3px 9px;
+  border: 2px solid var(--faint);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.word-chip.is-found {
+  color: var(--ink);
+  border-color: var(--stroke);
+  box-shadow: 0 2px 0 var(--stroke);
+  text-decoration: line-through 2px color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+.word-chip.is-found[data-role='animal'] {
+  background: var(--tone-animal);
+}
+
+.word-chip.is-found[data-role='adjective'] {
+  background: var(--tone-trait);
+}
+
+.word-chip.pop {
+  animation: pop 0.42s cubic-bezier(0.3, 1.7, 0.5, 1);
+}
+
 .album-count {
   font-variant-numeric: tabular-nums;
 }
@@ -637,10 +679,18 @@ button {
   text-align: center;
 }
 
-.sticker-word.is-blank {
+/* Locked slot: just a question mark, so it can't hint at the pairs. */
+.sticker.is-locked .sticker-name {
   color: var(--ink-soft);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.2em;
   opacity: 0.6;
+}
+
+.sticker-mystery {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85em;
+  color: var(--faint);
 }
 
 .sticker.pop .sticker-art {
