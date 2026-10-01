@@ -1,0 +1,56 @@
+{
+  "id": "rei-da-selva",
+  "title": "Rei da selva",
+  "rows": 6,
+  "cols": 6,
+  "grid": [
+    "DSNLAY",
+    "OGAKEO",
+    "CLYKAR",
+    "OOSNEN",
+    "TYEHWO",
+    "INLALI"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "ROYAL",
+        "path": [17, 11, 5, 4, 3]
+      },
+      "animal": {
+        "text": "LION",
+        "path": [34, 35, 29, 23]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SNEAKY",
+        "path": [20, 21, 22, 16, 15, 14]
+      },
+      "animal": {
+        "text": "SNAKE",
+        "path": [1, 2, 8, 9, 10]
+      }
+    },
+    {
+      "adjective": {
+        "text": "TINY",
+        "path": [24, 30, 31, 25]
+      },
+      "animal": {
+        "text": "WHALE",
+        "path": [28, 27, 33, 32, 26]
+      }
+    },
+    {
+      "adjective": {
+        "text": "COOL",
+        "path": [12, 18, 19, 13]
+      },
+      "animal": {
+        "text": "DOG",
+        "path": [0, 6, 7]
+      }
+    }
+  ]
+}

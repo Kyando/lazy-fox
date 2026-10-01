@@ -1,0 +1,35 @@
+{
+  "id": "primeiros-amigos",
+  "title": "Primeiros amigos",
+  "subtitle": "Cada bicho tem uma mania escondida logo ao lado.",
+  "rows": 4,
+  "cols": 4,
+  "grid": [
+    "TAYL",
+    "CCZA",
+    "LERX",
+    "EVFO"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "LAZY",
+        "path": [3, 7, 6, 2]
+      },
+      "animal": {
+        "text": "FOX",
+        "path": [14, 15, 11]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CLEVER",
+        "path": [4, 8, 12, 13, 9, 10]
+      },
+      "animal": {
+        "text": "CAT",
+        "path": [5, 1, 0]
+      }
+    }
+  ]
+}

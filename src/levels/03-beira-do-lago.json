@@ -1,0 +1,46 @@
+{
+  "id": "beira-do-lago",
+  "title": "Beira do lago",
+  "rows": 6,
+  "cols": 5,
+  "grid": [
+    "YEPGO",
+    "DESFR",
+    "LISYC",
+    "BANAN",
+    "EYPFG",
+    "ARMUR"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "GRUMPY",
+        "path": [24, 29, 28, 27, 22, 21]
+      },
+      "animal": {
+        "text": "BEAR",
+        "path": [15, 20, 25, 26]
+      }
+    },
+    {
+      "adjective": {
+        "text": "FANCY",
+        "path": [23, 18, 19, 14, 13]
+      },
+      "animal": {
+        "text": "FROG",
+        "path": [8, 9, 4, 3]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SPEEDY",
+        "path": [7, 2, 1, 6, 5, 0]
+      },
+      "animal": {
+        "text": "SNAIL",
+        "path": [12, 17, 16, 11, 10]
+      }
+    }
+  ]
+}

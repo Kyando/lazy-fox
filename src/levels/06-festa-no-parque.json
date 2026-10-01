@@ -1,0 +1,67 @@
+{
+  "id": "festa-no-parque",
+  "title": "Festa no parque",
+  "rows": 7,
+  "cols": 7,
+  "grid": [
+    "SETYNCB",
+    "WENSNRA",
+    "CORIUBY",
+    "IYLLYAR",
+    "NULDSNG",
+    "AMAUUBA",
+    "GICCKTN"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "SILLY",
+        "path": [10, 17, 24, 23, 22]
+      },
+      "animal": {
+        "text": "DUCK",
+        "path": [31, 38, 45, 46]
+      }
+    },
+    {
+      "adjective": {
+        "text": "MAGICAL",
+        "path": [36, 35, 42, 43, 44, 37, 30]
+      },
+      "animal": {
+        "text": "UNICORN",
+        "path": [29, 28, 21, 14, 15, 16, 9]
+      }
+    },
+    {
+      "adjective": {
+        "text": "ANGRY",
+        "path": [26, 33, 34, 27, 20]
+      },
+      "animal": {
+        "text": "CRAB",
+        "path": [5, 12, 13, 6]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SWEET",
+        "path": [0, 7, 8, 1, 2]
+      },
+      "animal": {
+        "text": "BUNNY",
+        "path": [19, 18, 11, 4, 3]
+      }
+    },
+    {
+      "adjective": {
+        "text": "BUSY",
+        "path": [40, 39, 32, 25]
+      },
+      "animal": {
+        "text": "ANT",
+        "path": [41, 48, 47]
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "zoologico-de-inverno",
+  "title": "Zoológico de inverno",
+  "rows": 7,
+  "cols": 6,
+  "grid": [
+    "OTHIPP",
+    "ETEYKO",
+    "SIROOH",
+    "YWTPNU",
+    "LBASGP",
+    "LCNYRE",
+    "IHIUGN"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "SPOOKY",
+        "path": [27, 21, 15, 16, 10, 9]
+      },
+      "animal": {
+        "text": "BAT",
+        "path": [25, 26, 20]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CHILLY",
+        "path": [31, 37, 36, 30, 24, 18]
+      },
+      "animal": {
+        "text": "PENGUIN",
+        "path": [29, 35, 41, 40, 39, 38, 32]
+      }
+    },
+    {
+      "adjective": {
+        "text": "HUNGRY",
+        "path": [17, 23, 22, 28, 34, 33]
+      },
+      "animal": {
+        "text": "HIPPO",
+        "path": [2, 3, 4, 5, 11]
+      }
+    },
+    {
+      "adjective": {
+        "text": "WISE",
+        "path": [19, 13, 12, 6]
+      },
+      "animal": {
+        "text": "OTTER",
+        "path": [0, 1, 7, 8, 14]
+      }
+    }
+  ]
+}
