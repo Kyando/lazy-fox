@@ -16,6 +16,9 @@ export interface Word {
   role: Role;
 }
 
+/** An empty cell in the grid: not part of the board at all. */
+export const HOLE_LETTER = '.';
+
 export interface Puzzle {
   def: LevelDef;
   rows: number;
@@ -51,7 +54,7 @@ export function validateLevel(def: LevelDef): string[] {
   const { rows, cols } = def;
   const letters = def.grid.join('');
   if (def.grid.length !== rows || def.grid.some((r) => r.length !== cols)) errors.push('grid size does not match rows/cols');
-  if (!/^[A-Z]*$/.test(letters)) errors.push('grid must be uppercase A-Z');
+  if (!/^[A-Z.]*$/.test(letters)) errors.push('grid must be uppercase A-Z (or . for an empty cell)');
 
   const words = wordsOf(def);
   const seen = new Set<string>();
@@ -75,7 +78,7 @@ export function validateLevel(def: LevelDef): string[] {
       if (letters[cell] !== w.text[i]) errors.push(`${w.text} is misspelled on the grid`);
     });
   }
-  if (owner.includes(-1)) errors.push('some cells belong to no word');
+  if (owner.some((o, cell) => (o < 0) !== (letters[cell] === HOLE_LETTER))) errors.push('every letter must belong to exactly one word');
   if (errors.length) return errors;
 
   // The trait leads straight into its animal: lazY sits next to Fox.

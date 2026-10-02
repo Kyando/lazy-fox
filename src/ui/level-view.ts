@@ -1,5 +1,5 @@
 import { adjacent, colOf, rowOf } from '../core/grid.ts';
-import { matchTrace, type Word } from '../core/puzzle.ts';
+import { HOLE_LETTER, matchTrace, type Word } from '../core/puzzle.ts';
 import { ANIMALS, stickerName, TRAITS } from '../core/words.ts';
 import type { Session } from '../game/session.ts';
 import { h, svg } from './dom.ts';
@@ -81,7 +81,7 @@ export class LevelView {
     for (let cell = 0; cell < p.rows * p.cols; cell++) {
       const tile = h(
         'div',
-        { class: 'tile', style: `border-radius: ${RADII[(rowOf(cell, p.cols) * 3 + colOf(cell, p.cols)) % RADII.length]}` },
+        { class: p.letters[cell] === HOLE_LETTER ? 'tile is-hole' : 'tile', style: `border-radius: ${RADII[(rowOf(cell, p.cols) * 3 + colOf(cell, p.cols)) % RADII.length]}` },
         h('span', { class: 'tile-letter' }, p.letters[cell]),
       );
       this.tiles.push(tile);
@@ -181,7 +181,7 @@ export class LevelView {
   }
 
   private free(cell: number): boolean {
-    return cell >= 0 && this.s.ownerAt(cell) < 0;
+    return cell >= 0 && this.s.ownerAt(cell) < 0 && this.s.puzzle.letters[cell] !== HOLE_LETTER;
   }
 
   private bindPointer(): void {

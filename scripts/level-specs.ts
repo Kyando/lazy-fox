@@ -5,14 +5,14 @@ import type { LevelSpec } from '../src/core/generate.ts';
  * After the intro, levels come in twos of the same size and pair count, so difficulty climbs in steps.
  */
 export const SPECS: LevelSpec[] = [
-  // The classic pangram, with the roles swapped: the dog is quick and the fox is lazy.
+  // Just the game's namesake: one pair on a 2×4 board with a corner cut off (7 cells).
   {
-    id: 'a-frase-famosa',
-    title: 'A frase famosa',
-    subtitle: 'Leia a frase de ponta a ponta: o bicho e a mania trocaram de lugar.',
-    rows: 6,
-    cols: 5,
-    sentence: ['THE', 'QUICK', 'DOG', 'JUMPS', 'OVER', 'THE', 'LAZY', 'FOX'],
+    id: 'lazy-fox',
+    title: 'Lazy Fox',
+    rows: 2,
+    cols: 4,
+    holes: [4],
+    pairs: [['LAZY', 'FOX']],
   },
 
   // 4×4, 2 pairs

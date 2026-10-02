@@ -213,7 +213,7 @@ export class App {
       const owner = new Array<number>(rows * cols);
       words.forEach((w) => w.path.forEach((c) => (owner[c] = w.pair)));
       const board = Array.from({ length: rows }, (_, r) =>
-        owner.slice(r * cols, (r + 1) * cols).map((p) => (p < 0 ? '⬜' : SHARE_SQUARES[p % PALETTES])).join(''),
+        owner.slice(r * cols, (r + 1) * cols).map((p) => (p === undefined ? '▫️' : p < 0 ? '⬜' : SHARE_SQUARES[p % PALETTES])).join(''),
       ).join('\n');
       const verdict = misses === 0 ? '✨ sem erros' : `${misses} ${misses === 1 ? 'erro' : 'erros'}`;
       const text = `${GAME_NAME} · Nível ${number}\n${verdict}\n${board}`;

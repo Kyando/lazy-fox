@@ -1,5 +1,5 @@
 import { neighbors, turns } from './grid.ts';
-import { validateLevel } from './puzzle.ts';
+import { HOLE_LETTER, validateLevel } from './puzzle.ts';
 import type { LevelDef, PairDef, WordDef } from './types.ts';
 import { ANIMALS, TRAITS } from './words.ts';
 
@@ -16,6 +16,8 @@ export interface LevelSpec {
    * becomes a sticker pair; every other word is filler.
    */
   sentence?: string[];
+  /** Cells left empty, for boards that aren't a full rectangle (a 2×4 with a corner cut off). */
+  holes?: number[];
 }
 
 /** The words of a spec, grouped into chains that are laid as one continuous path each. */
@@ -87,6 +89,9 @@ function randomPaths(start: number, length: number, owner: Int16Array, rows: num
   return out;
 }
 
+/** Marks a hole as taken, so no word is laid through it. */
+const HOLE = 0x7fff;
+
 /** Can `size` be written as a sum of some of `lengths`? */
 function subsetSum(lengths: number[], size: number): boolean {
   const ok = new Array<boolean>(size + 1).fill(false);
@@ -100,9 +105,10 @@ function subsetSum(lengths: number[], size: number): boolean {
  * letter always touches the animal's first. Only shapes here; letters come later.
  * Fills the first empty cell each step, so dead ends show up early.
  */
-function tile(lengths: number[], rows: number, cols: number, rng: () => number): number[][] | null {
+function tile(lengths: number[], rows: number, cols: number, holes: number[], rng: () => number): number[][] | null {
   const n = rows * cols;
   const owner = new Int16Array(n).fill(-1);
+  for (const h of holes) owner[h] = HOLE;
   const paths: (number[] | null)[] = lengths.map(() => null);
   let budget = 4000;
 
@@ -164,21 +170,22 @@ export function generateLevel(spec: LevelSpec, seed: number, attempts = 200): Le
   const chains = chainsOf(spec);
   const texts = chains.flat();
   const total = texts.reduce((s, t) => s + t.length, 0);
-  if (total !== rows * cols) throw new Error(`${spec.id}: words have ${total} letters for ${rows * cols} cells`);
+  const holes = spec.holes ?? [];
+  if (total !== rows * cols - holes.length) throw new Error(`${spec.id}: words have ${total} letters for ${rows * cols - holes.length} cells`);
   const pairCount = specPairs(spec).length;
 
   const rng = mulberry32(seed);
   let best: LevelDef | null = null;
   let bestScore = -Infinity;
   for (let i = 0; i < attempts; i++) {
-    const chainPaths = tile(chains.map((c) => c.join('').length), rows, cols, rng);
+    const chainPaths = tile(chains.map((c) => c.join('').length), rows, cols, holes, rng);
     if (!chainPaths) continue;
     // Cut each chain's path back into its words.
     const words: WordDef[] = chains.flatMap((chain, c) => {
       let at = 0;
       return chain.map((text) => ({ text, path: chainPaths[c].slice(at, (at += text.length)) }));
     });
-    const letters = new Array<string>(rows * cols);
+    const letters = new Array<string>(rows * cols).fill(HOLE_LETTER);
     words.forEach((w) => w.path.forEach((cell, k) => (letters[cell] = w.text[k])));
 
     const pairs: PairDef[] = [];

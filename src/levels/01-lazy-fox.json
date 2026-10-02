@@ -1,0 +1,22 @@
+{
+  "id": "lazy-fox",
+  "title": "Lazy Fox",
+  "rows": 2,
+  "cols": 4,
+  "grid": [
+    "LAFO",
+    ".ZYX"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "LAZY",
+        "path": [0, 1, 5, 6]
+      },
+      "animal": {
+        "text": "FOX",
+        "path": [2, 3, 7]
+      }
+    }
+  ]
+}

@@ -443,6 +443,11 @@ button {
   transition: background 0.15s, box-shadow 0.15s;
 }
 
+/* An empty cell: the board's outline simply skips it. */
+.tile.is-hole {
+  visibility: hidden;
+}
+
 .tile-letter {
   position: relative;
   z-index: 2;

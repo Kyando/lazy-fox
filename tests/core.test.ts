@@ -60,7 +60,7 @@ describe('generator', () => {
 
 describe('session', () => {
   it('accepts a word traced either way and unlocks its sticker', () => {
-    const puzzle = buildPuzzle(levels[0]);
+    const puzzle = buildPuzzle(levels[1]);
     const session = new Session(puzzle, emptyProgress(), () => {});
     const [trait, animal] = puzzle.words;
 
@@ -72,12 +72,12 @@ describe('session', () => {
   });
 
   it('rejects a trace that is not exactly a word', () => {
-    const puzzle = buildPuzzle(levels[0]);
+    const puzzle = buildPuzzle(levels[1]);
     expect(matchTrace(puzzle, puzzle.words[0].path.slice(1))).toEqual([]);
   });
 
   it('takes a whole pair traced in one go (LAZYFOX), either way', () => {
-    const puzzle = buildPuzzle(levels[0]);
+    const puzzle = buildPuzzle(levels[1]);
     const [trait, animal] = puzzle.words;
     const chain = [...trait.path, ...animal.path];
     expect(matchTrace(puzzle, [...chain].reverse())).toEqual([0, 1]);
@@ -88,7 +88,7 @@ describe('session', () => {
   });
 
   it('does not chain a pair once one of its words is found', () => {
-    const puzzle = buildPuzzle(levels[0]);
+    const puzzle = buildPuzzle(levels[1]);
     const [trait, animal] = puzzle.words;
     const session = new Session(puzzle, emptyProgress(), () => {});
     session.submit(trait.path);
@@ -97,10 +97,14 @@ describe('session', () => {
 });
 
 describe('sentence level', () => {
-  const def = levels[0];
+  // No shipped level uses a sentence right now, so lay one out here.
+  const def = generateLevel(
+    { id: 'pangram', title: 'Pangram', rows: 6, cols: 5, sentence: ['THE', 'QUICK', 'DOG', 'JUMPS', 'OVER', 'THE', 'LAZY', 'FOX'] },
+    7,
+  )!;
   const puzzle = buildPuzzle(def);
 
-  it('opens the game with the swapped pangram, laid as one snake', () => {
+  it('lays the whole sentence as one snake', () => {
     expect(def.sentence).toEqual(['THE', 'QUICK', 'DOG', 'JUMPS', 'OVER', 'THE', 'LAZY', 'FOX']);
     expect(def.pairs.map((p) => `${p.adjective.text} ${p.animal.text}`)).toEqual(['QUICK DOG', 'LAZY FOX']);
     // Each word in the sentence runs straight into the next one.
@@ -132,5 +136,20 @@ describe('sentence level', () => {
     const extras = puzzle.words.filter((w) => w.role === 'extra');
     extras.slice(0, -1).forEach((w) => session.submit(w.path));
     expect(session.submit(extras.at(-1)!.path)).toMatchObject({ kind: 'found', solved: true });
+  });
+});
+
+describe('holes', () => {
+  it('opens with LAZY FOX alone on a 2×4 board missing a corner', () => {
+    const def = levels[0];
+    expect(def.pairs.map((p) => p.adjective.text + p.animal.text)).toEqual(['LAZYFOX']);
+    expect(def.grid.join('').split('').filter((c) => c === '.')).toHaveLength(1);
+    expect(def.extras).toBeUndefined();
+  });
+
+  it('rejects a level that leaves a letter cell without a word', () => {
+    const def = structuredClone(levels[0]);
+    def.grid[1] = 'QZYX'; // the hole now holds a stray letter
+    expect(validateLevel(def)).toContain('every letter must belong to exactly one word');
   });
 });
