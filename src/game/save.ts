@@ -1,7 +1,7 @@
 /** Local persistence (per browser). Progress is keyed by word text so regenerated layouts keep it. */
 
 export interface LevelProgress {
-  /** Words found so far. */
+  /** Keys of the words found so far (the word, or "THE#2" for a repeat). */
   found: string[];
   done: boolean;
   /** Traces that weren't a word. */

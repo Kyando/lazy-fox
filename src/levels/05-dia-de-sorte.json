@@ -1,0 +1,45 @@
+{
+  "id": "dia-de-sorte",
+  "title": "Dia de sorte",
+  "rows": 5,
+  "cols": 5,
+  "grid": [
+    "RDYTI",
+    "EEZZN",
+    "LUDIY",
+    "KCATR",
+    "YGOTA"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "LUCKY",
+        "path": [10, 11, 16, 15, 20]
+      },
+      "animal": {
+        "text": "GOAT",
+        "path": [21, 22, 17, 18]
+      }
+    },
+    {
+      "adjective": {
+        "text": "DIZZY",
+        "path": [12, 13, 8, 7, 2]
+      },
+      "animal": {
+        "text": "DEER",
+        "path": [1, 6, 5, 0]
+      }
+    },
+    {
+      "adjective": {
+        "text": "TINY",
+        "path": [3, 4, 9, 14]
+      },
+      "animal": {
+        "text": "RAT",
+        "path": [19, 24, 23]
+      }
+    }
+  ]
+}

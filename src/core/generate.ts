@@ -1,6 +1,7 @@
 import { neighbors, turns } from './grid.ts';
 import { validateLevel } from './puzzle.ts';
-import type { LevelDef } from './types.ts';
+import type { LevelDef, PairDef, WordDef } from './types.ts';
+import { ANIMALS, TRAITS } from './words.ts';
 
 export interface LevelSpec {
   id: string;
@@ -9,7 +10,28 @@ export interface LevelSpec {
   rows: number;
   cols: number;
   /** [trait, animal] pairs; their letters must add up to rows * cols. */
-  pairs: [string, string][];
+  pairs?: [string, string][];
+  /**
+   * Or a whole sentence laid as one snake through the grid. Each trait followed by an animal
+   * becomes a sticker pair; every other word is filler.
+   */
+  sentence?: string[];
+}
+
+/** The words of a spec, grouped into chains that are laid as one continuous path each. */
+function chainsOf(spec: LevelSpec): string[][] {
+  return spec.sentence ? [spec.sentence] : (spec.pairs ?? []);
+}
+
+/** The sticker pairs a spec yields, in order. */
+export function specPairs(spec: LevelSpec): [string, string][] {
+  if (!spec.sentence) return spec.pairs ?? [];
+  const words = spec.sentence;
+  const out: [string, string][] = [];
+  for (let i = 0; i < words.length - 1; i++) {
+    if (TRAITS[words[i]] && ANIMALS[words[i + 1]]) out.push([words[i], words[++i]]);
+  }
+  return out;
 }
 
 export function mulberry32(seed: number): () => number {
@@ -37,14 +59,22 @@ function randomPaths(start: number, length: number, owner: Int16Array, rows: num
   const out: number[][] = [];
   const path = [start];
   const used = new Set(path);
-  let budget = 400;
+  // Long snakes (a whole sentence) follow Warnsdorff's rule: visit the neighbour with the fewest
+  // free neighbours first, so the walk doesn't wall itself off.
+  const long = length > 12;
+  let budget = long ? length * 400 : 400;
+  const freeAround = (cell: number) => neighbors(cell, rows, cols).filter((x) => owner[x] < 0 && !used.has(x)).length;
+  const order = (cell: number) => {
+    const next = shuffle(neighbors(cell, rows, cols), rng);
+    return long ? next.map((x) => [x, freeAround(x) + rng() * 0.5] as const).sort((a, b) => a[1] - b[1]).map(([x]) => x) : next;
+  };
   const walk = () => {
     if (out.length >= max || --budget < 0) return;
     if (path.length === length) {
       out.push([...path]);
       return;
     }
-    for (const next of shuffle(neighbors(path[path.length - 1], rows, cols), rng)) {
+    for (const next of order(path[path.length - 1])) {
       if (owner[next] >= 0 || used.has(next)) continue;
       path.push(next);
       used.add(next);
@@ -123,7 +153,7 @@ function tile(lengths: number[], rows: number, cols: number, rng: () => number):
 
 /** Bendier boards feel more like Tetris: reward turns, and a little variety in shapes. */
 function score(def: LevelDef): number {
-  const paths = def.pairs.flatMap((p) => [p.adjective.path, p.animal.path]);
+  const paths = [...def.pairs.flatMap((p) => [p.adjective.path, p.animal.path]), ...(def.extras ?? []).map((w) => w.path)];
   const bent = paths.filter((p) => turns(p) > 0).length;
   return paths.reduce((sum, p) => sum + Math.min(turns(p), 3), 0) + bent * 2;
 }
@@ -131,19 +161,35 @@ function score(def: LevelDef): number {
 /** Best of `attempts` random valid layouts, or null if none passed validation. */
 export function generateLevel(spec: LevelSpec, seed: number, attempts = 200): LevelDef | null {
   const { rows, cols } = spec;
-  const texts = spec.pairs.flat();
+  const chains = chainsOf(spec);
+  const texts = chains.flat();
   const total = texts.reduce((s, t) => s + t.length, 0);
   if (total !== rows * cols) throw new Error(`${spec.id}: words have ${total} letters for ${rows * cols} cells`);
+  const pairCount = specPairs(spec).length;
 
   const rng = mulberry32(seed);
   let best: LevelDef | null = null;
   let bestScore = -Infinity;
   for (let i = 0; i < attempts; i++) {
-    const chains = tile(spec.pairs.map(([a, b]) => a.length + b.length), rows, cols, rng);
-    if (!chains) continue;
-    const paths = chains.flatMap((chain, p) => [chain.slice(0, spec.pairs[p][0].length), chain.slice(spec.pairs[p][0].length)]);
+    const chainPaths = tile(chains.map((c) => c.join('').length), rows, cols, rng);
+    if (!chainPaths) continue;
+    // Cut each chain's path back into its words.
+    const words: WordDef[] = chains.flatMap((chain, c) => {
+      let at = 0;
+      return chain.map((text) => ({ text, path: chainPaths[c].slice(at, (at += text.length)) }));
+    });
     const letters = new Array<string>(rows * cols);
-    paths.forEach((path, w) => path.forEach((cell, k) => (letters[cell] = texts[w][k])));
+    words.forEach((w) => w.path.forEach((cell, k) => (letters[cell] = w.text[k])));
+
+    const pairs: PairDef[] = [];
+    const extras: WordDef[] = [];
+    for (let k = 0; k < words.length; k++) {
+      const pairable = spec.sentence ? TRAITS[words[k].text] && ANIMALS[words[k + 1]?.text] : true;
+      if (pairable && k + 1 < words.length) pairs.push({ adjective: words[k], animal: words[++k] });
+      else extras.push(words[k]);
+    }
+    if (pairs.length !== pairCount) throw new Error(`${spec.id}: expected ${pairCount} pairs`);
+
     const def: LevelDef = {
       id: spec.id,
       title: spec.title,
@@ -151,10 +197,9 @@ export function generateLevel(spec: LevelSpec, seed: number, attempts = 200): Le
       rows,
       cols,
       grid: Array.from({ length: rows }, (_, r) => letters.slice(r * cols, (r + 1) * cols).join('')),
-      pairs: spec.pairs.map(([adjective, animal], p) => ({
-        adjective: { text: adjective, path: paths[p * 2] },
-        animal: { text: animal, path: paths[p * 2 + 1] },
-      })),
+      pairs,
+      ...(extras.length ? { extras } : {}),
+      ...(spec.sentence ? { sentence: spec.sentence } : {}),
     };
     if (validateLevel(def).length) continue;
     const s = score(def) + rng();

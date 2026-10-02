@@ -169,7 +169,8 @@ export class App {
 
   private openHelp(): void {
     const word = (text: string, tone: string) => h('span', { class: `ex-block ex-block--${tone}` }, text);
-    const fox = CATALOG[0]?.def.pairs[0];
+    // The art only reads the words, so the example needs no level.
+    const fox = { adjective: { text: 'LAZY', path: [] }, animal: { text: 'FOX', path: [] } };
     openModal({
       title: 'Como jogar',
       className: 'modal--help',
@@ -184,7 +185,7 @@ export class App {
           h('span', { class: 'ex-op' }, '+'),
           word('FOX', 'animal'),
           h('span', { class: 'ex-op' }, '='),
-          fox ? h('span', { class: 'ex-sticker' }, stickerArt(fox)) : null,
+          h('span', { class: 'ex-sticker' }, stickerArt(fox)),
         ),
         h(
           'ul',
@@ -212,7 +213,7 @@ export class App {
       const owner = new Array<number>(rows * cols);
       words.forEach((w) => w.path.forEach((c) => (owner[c] = w.pair)));
       const board = Array.from({ length: rows }, (_, r) =>
-        owner.slice(r * cols, (r + 1) * cols).map((p) => SHARE_SQUARES[p % PALETTES]).join(''),
+        owner.slice(r * cols, (r + 1) * cols).map((p) => (p < 0 ? '⬜' : SHARE_SQUARES[p % PALETTES])).join(''),
       ).join('\n');
       const verdict = misses === 0 ? '✨ sem erros' : `${misses} ${misses === 1 ? 'erro' : 'erros'}`;
       const text = `${GAME_NAME} · Nível ${number}\n${verdict}\n${board}`;

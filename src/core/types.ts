@@ -19,4 +19,8 @@ export interface LevelDef {
   /** One string per row, for readability; must match the word paths. */
   grid: string[];
   pairs: PairDef[];
+  /** Words that fill the grid but give no sticker (THE, JUMPS, OVER…). The same text may repeat. */
+  extras?: WordDef[];
+  /** For sentence levels: every word in reading order, which the word list then follows. */
+  sentence?: string[];
 }

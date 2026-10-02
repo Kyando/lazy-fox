@@ -1,0 +1,67 @@
+{
+  "id": "feira-no-campo",
+  "title": "Feira no campo",
+  "rows": 7,
+  "cols": 7,
+  "grid": [
+    "BVEHORS",
+    "RASJOLE",
+    "GOHYCLY",
+    "EHIRHIL",
+    "GUOUKCL",
+    "DSTCLSA",
+    "EHACYAM"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "CURIOUS",
+        "path": [38, 31, 24, 23, 30, 29, 36]
+      },
+      "animal": {
+        "text": "HEDGEHOG",
+        "path": [43, 42, 35, 28, 21, 22, 15, 14]
+      }
+    },
+    {
+      "adjective": {
+        "text": "JOLLY",
+        "path": [10, 11, 12, 19, 20]
+      },
+      "animal": {
+        "text": "LLAMA",
+        "path": [27, 34, 41, 48, 47]
+      }
+    },
+    {
+      "adjective": {
+        "text": "BRAVE",
+        "path": [0, 7, 8, 1, 2]
+      },
+      "animal": {
+        "text": "HORSE",
+        "path": [3, 4, 5, 6, 13]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SHY",
+        "path": [9, 16, 17]
+      },
+      "animal": {
+        "text": "CHICK",
+        "path": [18, 25, 26, 33, 32]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SLY",
+        "path": [40, 39, 46]
+      },
+      "animal": {
+        "text": "CAT",
+        "path": [45, 44, 37]
+      }
+    }
+  ]
+}

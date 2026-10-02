@@ -1,0 +1,57 @@
+{
+  "id": "dia-de-praia",
+  "title": "Dia de praia",
+  "rows": 7,
+  "cols": 6,
+  "grid": [
+    "SEPYSB",
+    "LEOAEA",
+    "AMGLCR",
+    "LINZYG",
+    "FDLAUR",
+    "OURAMP",
+    "RPKHSY"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "PROUD",
+        "path": [37, 36, 30, 31, 25]
+      },
+      "animal": {
+        "text": "FLAMINGO",
+        "path": [24, 18, 12, 13, 19, 20, 14, 8]
+      }
+    },
+    {
+      "adjective": {
+        "text": "GRUMPY",
+        "path": [23, 29, 28, 34, 35, 41]
+      },
+      "animal": {
+        "text": "SHARK",
+        "path": [40, 39, 33, 32, 38]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SLEEPY",
+        "path": [0, 6, 7, 1, 2, 3]
+      },
+      "animal": {
+        "text": "SEAL",
+        "path": [4, 10, 9, 15]
+      }
+    },
+    {
+      "adjective": {
+        "text": "LAZY",
+        "path": [26, 27, 21, 22]
+      },
+      "animal": {
+        "text": "CRAB",
+        "path": [16, 17, 11, 5]
+      }
+    }
+  ]
+}

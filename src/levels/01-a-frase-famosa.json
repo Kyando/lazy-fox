@@ -1,0 +1,65 @@
+{
+  "id": "a-frase-famosa",
+  "title": "A frase famosa",
+  "subtitle": "Leia a frase de ponta a ponta: o bicho e a mania trocaram de lugar.",
+  "rows": 6,
+  "cols": 5,
+  "grid": [
+    "THEQU",
+    "ODKCI",
+    "GVEXO",
+    "JORYF",
+    "USTZA",
+    "MPHEL"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "QUICK",
+        "path": [3, 4, 9, 8, 7]
+      },
+      "animal": {
+        "text": "DOG",
+        "path": [6, 5, 10]
+      }
+    },
+    {
+      "adjective": {
+        "text": "LAZY",
+        "path": [29, 24, 23, 18]
+      },
+      "animal": {
+        "text": "FOX",
+        "path": [19, 14, 13]
+      }
+    }
+  ],
+  "extras": [
+    {
+      "text": "THE",
+      "path": [0, 1, 2]
+    },
+    {
+      "text": "JUMPS",
+      "path": [15, 20, 25, 26, 21]
+    },
+    {
+      "text": "OVER",
+      "path": [16, 11, 12, 17]
+    },
+    {
+      "text": "THE",
+      "path": [22, 27, 28]
+    }
+  ],
+  "sentence": [
+    "THE",
+    "QUICK",
+    "DOG",
+    "JUMPS",
+    "OVER",
+    "THE",
+    "LAZY",
+    "FOX"
+  ]
+}

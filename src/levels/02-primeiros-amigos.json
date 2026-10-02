@@ -1,34 +1,34 @@
 {
   "id": "primeiros-amigos",
   "title": "Primeiros amigos",
-  "subtitle": "A mania vem colada no bicho: lazY → Fox.",
+  "subtitle": "A mania vem colada no bicho: busY → Bee.",
   "rows": 4,
   "cols": 4,
   "grid": [
-    "LYFO",
-    "AZCX",
-    "ATLE",
-    "CREV"
+    "EESU",
+    "CBYB",
+    "LERT",
+    "EVCA"
   ],
   "pairs": [
     {
       "adjective": {
-        "text": "LAZY",
-        "path": [0, 4, 5, 1]
+        "text": "BUSY",
+        "path": [7, 3, 2, 6]
       },
       "animal": {
-        "text": "FOX",
-        "path": [2, 3, 7]
+        "text": "BEE",
+        "path": [5, 1, 0]
       }
     },
     {
       "adjective": {
         "text": "CLEVER",
-        "path": [6, 10, 11, 15, 14, 13]
+        "path": [4, 8, 12, 13, 9, 10]
       },
       "animal": {
         "text": "CAT",
-        "path": [12, 8, 9]
+        "path": [14, 15, 11]
       }
     }
   ]

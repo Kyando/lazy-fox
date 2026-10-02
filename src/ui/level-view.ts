@@ -108,7 +108,10 @@ export class LevelView {
       : h('button', { type: 'button', class: 'btn btn--primary next-btn', onclick: () => opts.onAlbum() }, svg(ICONS.sticker), h('span', {}, 'Ver álbum'));
 
     // The words to find, in alphabetical order so the list never hints at which trait goes with which animal.
-    const sorted = [...p.words].sort((a, b) => a.text.localeCompare(b.text));
+    // A sentence level reads in order instead: the sentence is the point.
+    const sorted = def.sentence
+      ? def.sentence.map((text, i) => p.words.filter((w) => w.text === text)[def.sentence!.slice(0, i).filter((t) => t === text).length])
+      : [...p.words].sort((a, b) => a.text.localeCompare(b.text));
     this.wordList = h(
       'ul',
       { class: 'word-list', 'aria-label': 'Palavras' },
@@ -385,6 +388,7 @@ export class LevelView {
       if (this.s.stickerDone(i)) return [line([...pair.adjective.path, ...pair.animal.path], 'link', pairStyle(i))];
       return p.words.filter((w) => w.pair === i && this.s.isFound(w.index)).map((w) => line(w.path, 'link', pairStyle(i)));
     });
+    for (const w of p.words) if (w.role === 'extra' && this.s.isFound(w.index)) groups.push(line(w.path, 'link', pairStyle(-1)));
     if (this.trace.length) groups.push(line(this.trace, 'link link--trace'));
     this.links.replaceChildren(...groups);
   }

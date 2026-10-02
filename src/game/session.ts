@@ -19,7 +19,7 @@ export class Session {
     this.puzzle = puzzle;
     this.progress = progress;
     this.persist = persist;
-    this.found = puzzle.words.map((w) => progress.found.includes(w.text));
+    this.found = puzzle.words.map((w) => progress.found.includes(w.key));
     this.owner = new Int16Array(puzzle.rows * puzzle.cols).fill(-1);
     puzzle.words.forEach((w) => this.found[w.index] && this.lock(w));
   }
@@ -60,11 +60,12 @@ export class Session {
     for (const word of words) {
       this.found[word.index] = true;
       this.lock(word);
-      this.progress.found.push(word.text);
+      this.progress.found.push(word.key);
     }
     this.progress.done ||= this.solved;
     this.persist();
-    return { kind: 'found', words, stickerDone: this.stickerDone(words[0].pair), solved: this.solved };
+    const pair = words[0].pair;
+    return { kind: 'found', words, stickerDone: pair >= 0 && this.stickerDone(pair), solved: this.solved };
   }
 
   /** Clears the board to play the level again (stickers already in the album stay there). */

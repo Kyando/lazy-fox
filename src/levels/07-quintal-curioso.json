@@ -1,0 +1,46 @@
+{
+  "id": "quintal-curioso",
+  "title": "Quintal curioso",
+  "rows": 6,
+  "cols": 5,
+  "grid": [
+    "NELLO",
+    "CHYPJ",
+    "URIRO",
+    "SUODU",
+    "MKESW",
+    "ONYNA"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "CURIOUS",
+        "path": [5, 10, 11, 12, 17, 16, 15]
+      },
+      "animal": {
+        "text": "MONKEY",
+        "path": [20, 25, 26, 21, 22, 27]
+      }
+    },
+    {
+      "adjective": {
+        "text": "JOLLY",
+        "path": [9, 4, 3, 2, 7]
+      },
+      "animal": {
+        "text": "HEN",
+        "path": [6, 1, 0]
+      }
+    },
+    {
+      "adjective": {
+        "text": "PROUD",
+        "path": [8, 13, 14, 19, 18]
+      },
+      "animal": {
+        "text": "SWAN",
+        "path": [23, 24, 29, 28]
+      }
+    }
+  ]
+}

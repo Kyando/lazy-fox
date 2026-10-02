@@ -33,7 +33,7 @@
   --p3-a: #ef97c0; --p3-b: #f6c8dc; --p3-line: #a8487a;
   --p4-a: #f2cb4e; --p4-b: #f9e192; --p4-line: #a07f12;
   --p5-a: #b29be9; --p5-b: #d8ccf6; --p5-line: #6a52ad;
-  --sticker-edge: #ffffff; --bevel: 0.38; --shadow-filter: brightness(0); --trace: #e3c999; --trace-ring: #b9975c; --pencil: #5b4a3c;
+  --sticker-edge: #ffffff; --bevel: 0.38; --shadow-filter: brightness(0); --trace: #e3c999; --trace-ring: #b9975c; --pencil: #5b4a3c; --extra: #ddd5c6; --extra-line: #8a7c68;
 
   --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
   --font-body: 'Nunito', ui-rounded, system-ui, 'Segoe UI', sans-serif;
@@ -77,7 +77,7 @@
     --p3-a: #a35482; --p3-b: #5a3451; --p3-line: #f0a2c8;
     --p4-a: #a3842a; --p4-b: #5b4c22; --p4-line: #f2d064;
     --p5-a: #7259ad; --p5-b: #46395f; --p5-line: #bfaaf2;
-    --sticker-edge: #f1e5cf; --bevel: 0.14; --shadow-filter: brightness(0) invert(1); --trace: #4b4236; --trace-ring: #7d6c52; --pencil: #e2d2b4;
+    --sticker-edge: #f1e5cf; --bevel: 0.14; --shadow-filter: brightness(0) invert(1); --trace: #4b4236; --trace-ring: #7d6c52; --pencil: #e2d2b4; --extra: #5d5668; --extra-line: #d6c9b3;
     color-scheme: dark;
   }
 }
@@ -113,7 +113,7 @@
   --p3-a: #a35482; --p3-b: #5a3451; --p3-line: #f0a2c8;
   --p4-a: #a3842a; --p4-b: #5b4c22; --p4-line: #f2d064;
   --p5-a: #7259ad; --p5-b: #46395f; --p5-line: #bfaaf2;
-  --sticker-edge: #f1e5cf; --bevel: 0.14; --shadow-filter: brightness(0) invert(1); --trace: #4b4236; --trace-ring: #7d6c52; --pencil: #e2d2b4;
+  --sticker-edge: #f1e5cf; --bevel: 0.14; --shadow-filter: brightness(0) invert(1); --trace: #4b4236; --trace-ring: #7d6c52; --pencil: #e2d2b4; --extra: #5d5668; --extra-line: #d6c9b3;
   color-scheme: dark;
 }
 
@@ -384,6 +384,10 @@ button {
   background: var(--tone-trait);
 }
 
+.trace-pill.is-found[data-role='extra'] {
+  background: var(--extra);
+}
+
 .trace-pill.is-found[data-role='pair'] {
   background: linear-gradient(90deg, var(--tone-trait) 50%, var(--tone-animal) 50%);
 }
@@ -479,6 +483,11 @@ button {
 
 .tile.is-found[data-role='adjective'] {
   --block: var(--tone-trait);
+}
+
+/* Filler words (THE, JUMPS…) settle into plain paper grey: part of the board, but no sticker. */
+.tile.is-found[data-role='extra'] {
+  --block: var(--extra);
 }
 
 .tile.pop {
@@ -587,6 +596,10 @@ button {
 
 .word-chip.is-found[data-role='adjective'] {
   background: var(--tone-trait);
+}
+
+.word-chip.is-found[data-role='extra'] {
+  background: var(--extra);
 }
 
 .word-chip.pop {
@@ -700,6 +713,8 @@ button {
 .fx-speedy .sticker-animal { transform: skewX(-14deg) translateX(10%); }
 .fx-silly .sticker-animal { transform: rotate(-26deg); }
 .fx-sneaky .sticker-animal { transform: translateY(20%); clip-path: inset(0 0 28% 0); }
+.fx-dizzy .sticker-animal { transform: rotate(22deg); }
+.fx-curious .sticker-animal { transform: rotate(-12deg) translateX(-6%); }
 
 .sticker-name {
   display: flex;

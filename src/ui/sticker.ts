@@ -4,13 +4,21 @@ import { h } from './dom.ts';
 
 export const PALETTES = 6;
 
-/** CSS variables for a pair's colours: the animal gets the strong tone, its trait the light one. */
+/**
+ * CSS variables for a pair's colours: the animal gets the strong tone, its trait the light one.
+ * Pair -1 (filler words like THE) only needs its neutral line colour; its block colour comes from CSS.
+ */
 export const pairStyle = (pair: number): string => {
+  if (pair < 0) return '--tone-line: var(--extra-line)';
   const p = pair % PALETTES;
   return `--tone-animal: var(--p${p}-a); --tone-trait: var(--p${p}-b); --tone-line: var(--p${p}-line)`;
 };
 
 export function setPairTones(el: HTMLElement, pair: number): void {
+  if (pair < 0) {
+    el.style.setProperty('--tone-line', 'var(--extra-line)');
+    return;
+  }
   const p = pair % PALETTES;
   el.style.setProperty('--tone-animal', `var(--p${p}-a)`);
   el.style.setProperty('--tone-trait', `var(--p${p}-b)`);

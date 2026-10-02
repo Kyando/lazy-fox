@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { generateLevel } from '../src/core/generate.ts';
+import { generateLevel, specPairs } from '../src/core/generate.ts';
 import { adjacent, findPaths, isPath } from '../src/core/grid.ts';
 import { buildPuzzle, matchTrace, validateLevel } from '../src/core/puzzle.ts';
 import type { LevelDef } from '../src/core/types.ts';
@@ -44,7 +44,7 @@ describe('levels', () => {
   it.each(levels.map((l) => [l.id, l] as const))('%s matches its spec', (_, def) => {
     const spec = SPECS.find((s) => s.id === def.id)!;
     expect([def.rows, def.cols]).toEqual([spec.rows, spec.cols]);
-    expect(def.pairs.map((p) => [p.adjective.text, p.animal.text])).toEqual(spec.pairs);
+    expect(def.pairs.map((p) => [p.adjective.text, p.animal.text])).toEqual(specPairs(spec));
   });
 });
 
@@ -93,5 +93,44 @@ describe('session', () => {
     const session = new Session(puzzle, emptyProgress(), () => {});
     session.submit(trait.path);
     expect(session.submit([...trait.path, ...animal.path])).toEqual({ kind: 'miss' });
+  });
+});
+
+describe('sentence level', () => {
+  const def = levels[0];
+  const puzzle = buildPuzzle(def);
+
+  it('opens the game with the swapped pangram, laid as one snake', () => {
+    expect(def.sentence).toEqual(['THE', 'QUICK', 'DOG', 'JUMPS', 'OVER', 'THE', 'LAZY', 'FOX']);
+    expect(def.pairs.map((p) => `${p.adjective.text} ${p.animal.text}`)).toEqual(['QUICK DOG', 'LAZY FOX']);
+    // Each word in the sentence runs straight into the next one.
+    const inOrder = def.sentence!.map((text, i) => puzzle.words.filter((w) => w.text === text)[def.sentence!.slice(0, i).filter((t) => t === text).length]);
+    inOrder.slice(1).forEach((w, i) => expect(adjacent(inOrder[i].path.at(-1)!, w.path[0], def.cols)).toBe(true));
+  });
+
+  it('keeps the two THEs apart, saved under their own keys', () => {
+    const thes = puzzle.words.filter((w) => w.text === 'THE');
+    expect(thes.map((w) => [w.key, w.role])).toEqual([
+      ['THE', 'extra'],
+      ['THE#2', 'extra'],
+    ]);
+    const progress = emptyProgress();
+    const session = new Session(puzzle, progress, () => {});
+    expect(session.submit(thes[1].path)).toMatchObject({ kind: 'found', stickerDone: false });
+    expect(progress.found).toEqual(['THE#2']);
+
+    const reloaded = new Session(puzzle, progress, () => {});
+    expect(reloaded.isFound(thes[1].index)).toBe(true);
+    expect(reloaded.isFound(thes[0].index)).toBe(false);
+  });
+
+  it('needs the filler words too before the level is solved', () => {
+    const session = new Session(puzzle, emptyProgress(), () => {});
+    def.pairs.forEach((p) => session.submit([...p.adjective.path, ...p.animal.path]));
+    expect(session.stickersDone).toBe(2);
+    expect(session.solved).toBe(false);
+    const extras = puzzle.words.filter((w) => w.role === 'extra');
+    extras.slice(0, -1).forEach((w) => session.submit(w.path));
+    expect(session.submit(extras.at(-1)!.path)).toMatchObject({ kind: 'found', solved: true });
   });
 });

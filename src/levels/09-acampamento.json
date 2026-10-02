@@ -1,0 +1,56 @@
+{
+  "id": "acampamento",
+  "title": "Acampamento",
+  "rows": 6,
+  "cols": 6,
+  "grid": [
+    "MECOON",
+    "SSCFLS",
+    "YRALYS",
+    "AAPOWH",
+    "DNELHY",
+    "GENTEN"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "GENTLE",
+        "path": [30, 31, 32, 33, 27, 26]
+      },
+      "animal": {
+        "text": "PANDA",
+        "path": [20, 19, 25, 24, 18]
+      }
+    },
+    {
+      "adjective": {
+        "text": "MESSY",
+        "path": [0, 1, 7, 6, 12]
+      },
+      "animal": {
+        "text": "RACCOON",
+        "path": [13, 14, 8, 2, 3, 4, 5]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SLY",
+        "path": [11, 10, 16]
+      },
+      "animal": {
+        "text": "WOLF",
+        "path": [22, 21, 15, 9]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SHY",
+        "path": [17, 23, 29]
+      },
+      "animal": {
+        "text": "HEN",
+        "path": [28, 34, 35]
+      }
+    }
+  ]
+}

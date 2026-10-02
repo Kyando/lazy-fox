@@ -15,7 +15,7 @@ npm run dev
 
 ## Níveis
 
-Os níveis são descritos em `scripts/level-specs.ts` (título, tamanho do grid e pares) e montados pelo gerador:
+Os níveis são descritos em `scripts/level-specs.ts` (título, tamanho do grid e pares) e montados pelo gerador. São 13: o primeiro é a frase clássica com os papéis trocados (*THE QUICK DOG JUMPS OVER THE LAZY FOX*, uma cobra só pelo grid, com THE/JUMPS/OVER como palavras de enchimento sem figurinha), e depois vêm de dois em dois com o mesmo tamanho e número de pares. Um nível pode usar `sentence` em vez de `pairs`.
 
 ```bash
 npm run levels:generate            # todos

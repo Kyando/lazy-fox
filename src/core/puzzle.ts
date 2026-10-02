@@ -2,12 +2,16 @@ import { adjacent, findPaths, isPath } from './grid.ts';
 import type { LevelDef } from './types.ts';
 import { ANIMALS, TRAITS } from './words.ts';
 
-export type Role = 'adjective' | 'animal';
+/** Filler words (THE, JUMPS…) are 'extra': they fill the grid but belong to no sticker. */
+export type Role = 'adjective' | 'animal' | 'extra';
 
 export interface Word {
   index: number;
   text: string;
+  /** Unique within the level: the text, plus "#2", "#3"… for repeats (the second THE). Saved in progress. */
+  key: string;
   path: number[];
+  /** Sticker pair, or -1 for extras. */
   pair: number;
   role: Role;
 }
@@ -18,15 +22,24 @@ export interface Puzzle {
   cols: number;
   /** All letters, row by row. */
   letters: string;
-  /** Words in pair order: adjective, animal, adjective, animal… */
+  /** Pairs first (adjective, animal, adjective, animal…), so word index = pair * 2 + 0|1; extras after. */
   words: Word[];
 }
 
 export function wordsOf(def: LevelDef): Word[] {
-  return def.pairs.flatMap((pair, p) => [
-    { index: p * 2, text: pair.adjective.text, path: pair.adjective.path, pair: p, role: 'adjective' as const },
-    { index: p * 2 + 1, text: pair.animal.text, path: pair.animal.path, pair: p, role: 'animal' as const },
-  ]);
+  const raw = [
+    ...def.pairs.flatMap((pair, p) => [
+      { ...pair.adjective, pair: p, role: 'adjective' as const },
+      { ...pair.animal, pair: p, role: 'animal' as const },
+    ]),
+    ...(def.extras ?? []).map((w) => ({ ...w, pair: -1, role: 'extra' as const })),
+  ];
+  const seen = new Map<string, number>();
+  return raw.map((w, index) => {
+    const n = (seen.get(w.text) ?? 0) + 1;
+    seen.set(w.text, n);
+    return { index, text: w.text, key: n === 1 ? w.text : `${w.text}#${n}`, path: w.path, pair: w.pair, role: w.role };
+  });
 }
 
 /**
@@ -44,8 +57,12 @@ export function validateLevel(def: LevelDef): string[] {
   const seen = new Set<string>();
   const owner = new Array<number>(rows * cols).fill(-1);
   for (const w of words) {
-    if (seen.has(w.text)) errors.push(`${w.text} appears twice`);
+    // Sticker words are one of a kind; only filler words (THE) may repeat.
+    if (seen.has(w.text) && (w.role !== 'extra' || words.some((o) => o.text === w.text && o.role !== 'extra'))) {
+      errors.push(`${w.text} appears twice`);
+    }
     seen.add(w.text);
+    if (w.role === 'extra' && !/^[A-Z]{2,}$/.test(w.text)) errors.push(`${w.text} is not a valid word`);
     if (w.role === 'animal' && !ANIMALS[w.text]) errors.push(`${w.text} is not in the animal bank`);
     if (w.role === 'adjective' && !TRAITS[w.text]) errors.push(`${w.text} is not in the trait bank`);
     if (w.path.length !== w.text.length || !isPath(w.path, rows, cols)) {
@@ -67,9 +84,14 @@ export function validateLevel(def: LevelDef): string[] {
       errors.push(`${adjective.text} does not run into ${animal.text}`);
     }
   });
-  for (const w of words) {
-    const n = findPaths(letters, rows, cols, w.text).length;
-    if (n !== 1) errors.push(`${w.text} can be traced in ${n} places`);
+  // A word repeated n times must be traceable in exactly n places: its own.
+  for (const text of new Set(words.map((w) => w.text))) {
+    const copies = words.filter((w) => w.text === text).length;
+    const n = findPaths(letters, rows, cols, text).length;
+    if (n !== copies) errors.push(`${text} can be traced in ${n} places`);
+  }
+  if (def.sentence && [...def.sentence].sort().join() !== words.map((w) => w.text).sort().join()) {
+    errors.push('sentence does not list the level words');
   }
   return errors;
 }
