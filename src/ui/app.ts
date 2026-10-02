@@ -188,6 +188,7 @@ export class App {
           {},
           h('li', {}, 'Nada de diagonal, mas as palavras podem ', h('b', {}, 'dobrar'), ': em L, em Z, até em quadrado, como peças de Tetris.'),
           h('li', {}, 'Cada bicho tem uma ', h('b', {}, 'característica'), ' que termina colada no começo dele: o Y de LAZY encosta no F de FOX. Ache os dois para liberar a figurinha.'),
+          h('li', {}, 'Achou o par? Dá para arrastar os dois num traço só: ', h('b', {}, 'LAZYFOX'), '.'),
           h('li', {}, 'A lista mostra todas as palavras, mas não diz quem combina com quem.'),
           h('li', {}, 'Dá para ler a palavra nos dois sentidos, e também tocar letra por letra.'),
           h('li', {}, 'Libere todas as figurinhas para completar o nível.'),

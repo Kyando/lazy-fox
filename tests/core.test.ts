@@ -73,6 +73,25 @@ describe('session', () => {
 
   it('rejects a trace that is not exactly a word', () => {
     const puzzle = buildPuzzle(levels[0]);
-    expect(matchTrace(puzzle, puzzle.words[0].path.slice(1))).toBe(-1);
+    expect(matchTrace(puzzle, puzzle.words[0].path.slice(1))).toEqual([]);
+  });
+
+  it('takes a whole pair traced in one go (LAZYFOX), either way', () => {
+    const puzzle = buildPuzzle(levels[0]);
+    const [trait, animal] = puzzle.words;
+    const chain = [...trait.path, ...animal.path];
+    expect(matchTrace(puzzle, [...chain].reverse())).toEqual([0, 1]);
+
+    const session = new Session(puzzle, emptyProgress(), () => {});
+    expect(session.submit(chain)).toMatchObject({ kind: 'found', words: [trait, animal], stickerDone: true });
+    expect(session.progress.found).toEqual([trait.text, animal.text]);
+  });
+
+  it('does not chain a pair once one of its words is found', () => {
+    const puzzle = buildPuzzle(levels[0]);
+    const [trait, animal] = puzzle.words;
+    const session = new Session(puzzle, emptyProgress(), () => {});
+    session.submit(trait.path);
+    expect(session.submit([...trait.path, ...animal.path])).toEqual({ kind: 'miss' });
   });
 });

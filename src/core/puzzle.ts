@@ -80,9 +80,16 @@ export function buildPuzzle(def: LevelDef): Puzzle {
   return { def, rows: def.rows, cols: def.cols, letters: def.grid.join(''), words: wordsOf(def) };
 }
 
-/** The word whose path is exactly `trace`, in either reading direction; -1 if none. */
-export function matchTrace(puzzle: Puzzle, trace: number[]): number {
+/**
+ * The words a trace spells, in either reading direction: one word whose path is exactly `trace`,
+ * or a whole pair traced in one go (LAZYFOX), since each trait runs straight into its animal.
+ * Empty if it's neither.
+ */
+export function matchTrace(puzzle: Puzzle, trace: number[]): number[] {
   const same = (path: number[]) =>
     path.length === trace.length && (path.every((c, i) => c === trace[i]) || path.every((c, i) => c === trace[trace.length - 1 - i]));
-  return puzzle.words.findIndex((w) => same(w.path));
+  const word = puzzle.words.findIndex((w) => same(w.path));
+  if (word >= 0) return [word];
+  const pair = puzzle.def.pairs.findIndex((p) => same([...p.adjective.path, ...p.animal.path]));
+  return pair >= 0 ? [pair * 2, pair * 2 + 1] : [];
 }

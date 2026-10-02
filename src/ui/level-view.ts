@@ -211,7 +211,7 @@ export class LevelView {
       this.gesture = null;
       if (!g || cancelled) return;
       // A trace that is a word is taken at once; otherwise a drag (or a tap on the end) submits it.
-      if (matchTrace(this.s.puzzle, this.trace) >= 0 || (g.moved && this.trace.length > 1) || g.onEnd) this.submit();
+      if (matchTrace(this.s.puzzle, this.trace).length || (g.moved && this.trace.length > 1) || g.onEnd) this.submit();
     };
     b.addEventListener('pointerup', () => finish(false));
     b.addEventListener('pointercancel', () => finish(true));
@@ -239,14 +239,19 @@ export class LevelView {
       this.render();
       return;
     }
-    const { word } = result;
+    const { words } = result;
+    const word = words[0];
     this.render();
-    word.path.forEach((c, i) => {
-      this.tiles[c].style.setProperty('--delay', `${i * 45}ms`);
-      replay(this.tiles[c], 'pop');
-    });
-    this.showTrace(word.text, 'is-found', word.pair, word.role);
-    replay(this.chips[word.index], 'pop');
+    words
+      .flatMap((w) => w.path)
+      .forEach((c, i) => {
+        this.tiles[c].style.setProperty('--delay', `${i * 45}ms`);
+        replay(this.tiles[c], 'pop');
+      });
+    // A whole pair in one trace shows both words, half in each tone.
+    if (words.length > 1) this.showTrace(words.map((w) => w.text).join(' '), 'is-found', word.pair, 'pair');
+    else this.showTrace(word.text, 'is-found', word.pair, word.role);
+    words.forEach((w) => replay(this.chips[w.index], 'pop'));
     if (result.stickerDone) this.unlockSticker(word);
     else this.opts.sfx.found();
     if (result.solved) window.setTimeout(() => this.celebrate(), 650);
@@ -353,7 +358,11 @@ export class LevelView {
       g.append(poly, dot);
       return g;
     };
-    const groups = p.words.filter((w) => this.s.isFound(w.index)).map((w) => line(w.path, 'link', pairStyle(w.pair)));
+    // A finished pair is drawn as one chain, trait into animal.
+    const groups = p.def.pairs.flatMap((pair, i) => {
+      if (this.s.stickerDone(i)) return [line([...pair.adjective.path, ...pair.animal.path], 'link', pairStyle(i))];
+      return p.words.filter((w) => w.pair === i && this.s.isFound(w.index)).map((w) => line(w.path, 'link', pairStyle(i)));
+    });
     if (this.trace.length) groups.push(line(this.trace, 'link link--trace'));
     this.links.replaceChildren(...groups);
   }

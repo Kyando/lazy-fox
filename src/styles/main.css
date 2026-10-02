@@ -358,6 +358,10 @@ button {
   background: var(--tone-trait);
 }
 
+.trace-pill.is-found[data-role='pair'] {
+  background: linear-gradient(90deg, var(--tone-trait) 50%, var(--tone-animal) 50%);
+}
+
 .trace-pill.is-miss {
   color: var(--danger);
   text-decoration: line-through 2.5px;

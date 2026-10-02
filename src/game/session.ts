@@ -2,7 +2,8 @@ import { matchTrace, type Puzzle, type Word } from '../core/puzzle.ts';
 import type { LevelProgress } from './save.ts';
 
 export type TraceResult =
-  | { kind: 'found'; word: Word; stickerDone: boolean; solved: boolean }
+  /** `words` holds one word, or both words of a pair traced as one chain. */
+  | { kind: 'found'; words: Word[]; stickerDone: boolean; solved: boolean }
   | { kind: 'miss' };
 
 /** Game state for one level: which words were found, and which cells they lock. */
@@ -47,21 +48,23 @@ export class Session {
     return this.puzzle.def.pairs.filter((_, p) => this.stickerDone(p)).length;
   }
 
-  /** Checks a finished trace against the hidden words. */
+  /** Checks a finished trace against the hidden words: a single word, or a trait + animal pair in one go. */
   submit(trace: number[]): TraceResult {
-    const index = matchTrace(this.puzzle, trace);
-    if (index < 0 || this.found[index]) {
+    const indices = matchTrace(this.puzzle, trace);
+    if (!indices.length || indices.some((i) => this.found[i])) {
       this.progress.misses++;
       this.persist();
       return { kind: 'miss' };
     }
-    const word = this.puzzle.words[index];
-    this.found[index] = true;
-    this.lock(word);
-    this.progress.found.push(word.text);
+    const words = indices.map((i) => this.puzzle.words[i]);
+    for (const word of words) {
+      this.found[word.index] = true;
+      this.lock(word);
+      this.progress.found.push(word.text);
+    }
     this.progress.done ||= this.solved;
     this.persist();
-    return { kind: 'found', word, stickerDone: this.stickerDone(word.pair), solved: this.solved };
+    return { kind: 'found', words, stickerDone: this.stickerDone(words[0].pair), solved: this.solved };
   }
 
   /** Clears the board to play the level again (stickers already in the album stay there). */
