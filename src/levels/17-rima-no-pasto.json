@@ -1,0 +1,78 @@
+{
+  "id": "rima-no-pasto",
+  "title": "Rima no pasto",
+  "rows": 8,
+  "cols": 7,
+  "grid": [
+    "EOGGRES",
+    "SOYLETR",
+    "XHSLEAO",
+    "OYSIDOH",
+    "NMYMYGY",
+    "OITOOSR",
+    "SGHSEEG",
+    "YMOUHUN"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "SILLY",
+        "path": [23, 24, 17, 10, 9]
+      },
+      "animal": {
+        "text": "GOOSE",
+        "path": [2, 1, 8, 7, 0]
+      }
+    },
+    {
+      "adjective": {
+        "text": "MIGHTY",
+        "path": [29, 36, 43, 44, 37, 30]
+      },
+      "animal": {
+        "text": "MOOSE",
+        "path": [31, 38, 39, 40, 47]
+      }
+    },
+    {
+      "adjective": {
+        "text": "HUNGRY",
+        "path": [53, 54, 55, 48, 41, 34]
+      },
+      "animal": {
+        "text": "HORSE",
+        "path": [27, 20, 13, 6, 5]
+      }
+    },
+    {
+      "adjective": {
+        "text": "NOSY",
+        "path": [28, 35, 42, 49]
+      },
+      "animal": {
+        "text": "MOUSE",
+        "path": [50, 51, 52, 45, 46]
+      }
+    },
+    {
+      "adjective": {
+        "text": "GREEDY",
+        "path": [3, 4, 11, 18, 25, 32]
+      },
+      "animal": {
+        "text": "GOAT",
+        "path": [33, 26, 19, 12]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SHY",
+        "path": [16, 15, 22]
+      },
+      "animal": {
+        "text": "OX",
+        "path": [21, 14]
+      }
+    }
+  ]
+}

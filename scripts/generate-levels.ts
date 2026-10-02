@@ -6,7 +6,7 @@
  */
 import { readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { generateLevel } from '../src/core/generate.ts';
+import { decoys, generateLevel } from '../src/core/generate.ts';
 import { SPECS } from './level-specs.ts';
 
 const dir = join(import.meta.dirname, '..', 'src', 'levels');
@@ -38,6 +38,6 @@ SPECS.forEach((spec, i) => {
   }
   for (const old of readdirSync(dir)) if (old.startsWith(`${String(n).padStart(2, '0')}-`) && old.endsWith('.json')) rmSync(join(dir, old));
   writeFileSync(join(dir, file), `${format(def)}\n`);
-  console.log(`✓ ${file} (${ms} ms)\n${def.grid.map((r) => `    ${r.split('').join(' ')}`).join('\n')}`);
+  console.log(`✓ ${file} (${ms} ms, ${decoys(def)} decoys)\n${def.grid.map((r) => `    ${r.split('').join(' ')}`).join('\n')}`);
 });
 process.exit(failed ? 1 : 0);

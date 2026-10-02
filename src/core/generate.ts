@@ -1,4 +1,4 @@
-import { neighbors, turns } from './grid.ts';
+import { findPaths, neighbors, turns } from './grid.ts';
 import { HOLE_LETTER, validateLevel } from './puzzle.ts';
 import type { LevelDef, PairDef, WordDef } from './types.ts';
 import { ANIMALS, TRAITS } from './words.ts';
@@ -18,6 +18,11 @@ export interface LevelSpec {
   sentence?: string[];
   /** Cells left empty, for boards that aren't a full rectangle (a 2×4 with a corner cut off). */
   holes?: number[];
+  /**
+   * Harder boards: prefer layouts full of false starts (BEA… that isn't BEAR), above all right after
+   * each trait, where a neighbour starts some other animal.
+   */
+  tricky?: boolean;
 }
 
 /** The words of a spec, grouped into chains that are laid as one continuous path each. */
@@ -164,8 +169,55 @@ function score(def: LevelDef): number {
   return paths.reduce((sum, p) => sum + Math.min(turns(p), 3), 0) + bent * 2;
 }
 
-/** Best of `attempts` random valid layouts, or null if none passed validation. */
-export function generateLevel(spec: LevelSpec, seed: number, attempts = 200): LevelDef | null {
+/** Longest prefix of `word` traceable from `cell` without stepping on `taken`. */
+function reach(letters: string, rows: number, cols: number, cell: number, word: string, taken: Set<number>): number {
+  let best = 0;
+  const used = new Set(taken);
+  const walk = (at: number, k: number) => {
+    if (letters[at] !== word[k]) return;
+    best = Math.max(best, k + 1);
+    if (k + 1 === word.length) return;
+    used.add(at);
+    for (const next of neighbors(at, rows, cols)) if (!used.has(next)) walk(next, k + 1);
+    used.delete(at);
+  };
+  if (!taken.has(cell)) walk(cell, 0);
+  return best;
+}
+
+/**
+ * How much a board misleads. Every false start of a word counts (a prefix traced somewhere it doesn't
+ * lead), longer ones more; wrong turns right after a trait (a neighbour that begins some animal of
+ * the level) count most, since that's where the player looks for the animal.
+ */
+export function decoys(def: LevelDef): number {
+  const { rows, cols } = def;
+  const letters = def.grid.join('');
+  const words = [...def.pairs.flatMap((p) => [p.adjective, p.animal]), ...(def.extras ?? [])];
+  const animals = def.pairs.map((p) => p.animal.text);
+  let total = 0;
+  for (const w of words) {
+    for (let k = 2; k < w.text.length; k++) {
+      const real = w.path.slice(0, k).join();
+      const wrong = findPaths(letters, rows, cols, w.text.slice(0, k)).filter((p) => p.join() !== real).length;
+      total += wrong * (k - 1);
+    }
+  }
+  for (const { adjective, animal } of def.pairs) {
+    const taken = new Set(adjective.path);
+    for (const next of neighbors(adjective.path[adjective.path.length - 1], rows, cols)) {
+      if (next === animal.path[0]) continue;
+      total += 10 * Math.max(0, ...animals.map((a) => reach(letters, rows, cols, next, a, taken)));
+    }
+  }
+  return total;
+}
+
+/**
+ * Best of `attempts` random valid layouts, or null if none passed validation. Tricky levels get many
+ * more tries: words sharing letters rarely leave each one traceable in a single place.
+ */
+export function generateLevel(spec: LevelSpec, seed: number, attempts = spec.tricky ? 3000 : 200): LevelDef | null {
   const { rows, cols } = spec;
   const chains = chainsOf(spec);
   const texts = chains.flat();
@@ -209,7 +261,7 @@ export function generateLevel(spec: LevelSpec, seed: number, attempts = 200): Le
       ...(spec.sentence ? { sentence: spec.sentence } : {}),
     };
     if (validateLevel(def).length) continue;
-    const s = score(def) + rng();
+    const s = score(def) + (spec.tricky ? decoys(def) : 0) + rng();
     if (s > bestScore) {
       best = def;
       bestScore = s;

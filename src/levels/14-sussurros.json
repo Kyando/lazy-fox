@@ -1,0 +1,67 @@
+{
+  "id": "sussurros",
+  "title": "Sussurros",
+  "rows": 7,
+  "cols": 7,
+  "grid": [
+    "SSLYSLS",
+    "LNAWEAA",
+    "EEPSYSS",
+    "TOYYSKE",
+    "HLSDNAL",
+    "SPEEYSI",
+    "SNEAKNA"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "SNEAKY",
+        "path": [42, 43, 44, 45, 46, 39]
+      },
+      "animal": {
+        "text": "SNAIL",
+        "path": [40, 47, 48, 41, 34]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SASSY",
+        "path": [6, 13, 20, 19, 18]
+      },
+      "animal": {
+        "text": "SNAKE",
+        "path": [25, 32, 33, 26, 27]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SLEEPY",
+        "path": [0, 7, 14, 15, 16, 23]
+      },
+      "animal": {
+        "text": "SLOTH",
+        "path": [30, 29, 22, 21, 28]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SLY",
+        "path": [1, 2, 3]
+      },
+      "animal": {
+        "text": "SEAL",
+        "path": [4, 11, 12, 5]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SPEEDY",
+        "path": [35, 36, 37, 38, 31, 24]
+      },
+      "animal": {
+        "text": "SWAN",
+        "path": [17, 10, 9, 8]
+      }
+    }
+  ]
+}

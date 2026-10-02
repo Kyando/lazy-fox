@@ -1,0 +1,67 @@
+{
+  "id": "hora-do-cha",
+  "title": "Hora do chá",
+  "rows": 7,
+  "cols": 7,
+  "grid": [
+    "CCALCLE",
+    "UTEMCAV",
+    "WOCLEME",
+    "KHCTACR",
+    "CIYHUYC",
+    "EEKCBBR",
+    "HCTEKCI"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "CHEEKY",
+        "path": [43, 42, 35, 36, 37, 30]
+      },
+      "animal": {
+        "text": "CHICK",
+        "path": [23, 22, 29, 28, 21]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CLEVER",
+        "path": [4, 5, 6, 13, 20, 27]
+      },
+      "animal": {
+        "text": "CRICKET",
+        "path": [34, 41, 48, 47, 46, 45, 44]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CHUBBY",
+        "path": [38, 31, 32, 39, 40, 33]
+      },
+      "animal": {
+        "text": "CAT",
+        "path": [26, 25, 24]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CALM",
+        "path": [1, 2, 3, 10]
+      },
+      "animal": {
+        "text": "CAMEL",
+        "path": [11, 12, 19, 18, 17]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CUTE",
+        "path": [0, 7, 8, 9]
+      },
+      "animal": {
+        "text": "COW",
+        "path": [16, 15, 14]
+      }
+    }
+  ]
+}

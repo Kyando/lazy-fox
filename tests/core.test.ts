@@ -140,9 +140,9 @@ describe('sentence level', () => {
 });
 
 describe('first level', () => {
-  it('opens with LAZY FOX and QUICK DOG filling a 3×5', () => {
+  it('opens with LAZY FOX and QUICK DOG filling a 5×3', () => {
     const def = levels[0];
-    expect([def.rows, def.cols]).toEqual([3, 5]);
+    expect([def.rows, def.cols]).toEqual([5, 3]);
     expect(def.pairs.map((p) => `${p.adjective.text} ${p.animal.text}`)).toEqual(['LAZY FOX', 'QUICK DOG']);
     expect(def.extras).toBeUndefined();
   });

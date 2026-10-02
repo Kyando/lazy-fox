@@ -15,7 +15,7 @@ npm run dev
 
 ## Níveis
 
-Os níveis são descritos em `scripts/level-specs.ts` (título, tamanho do grid e pares) e montados pelo gerador. São 13: o primeiro é LAZY FOX + QUICK DOG num 3×5, e depois vêm de dois em dois com o mesmo tamanho e número de pares. Um nível também pode deixar casas vazias (`holes`) ou usar `sentence` em vez de `pairs` (frase inteira numa cobra, com palavras de enchimento sem figurinha).
+Os níveis são descritos em `scripts/level-specs.ts` (título, tamanho do grid e pares) e montados pelo gerador. São 23: o primeiro é LAZY FOX + QUICK DOG num 5×3, e depois vêm de dois em dois com o mesmo tamanho e número de pares. Os dez últimos (`tricky: true`) usam palavras com as mesmas letras, e o gerador escolhe o layout com mais pistas falsas, principalmente logo depois de cada característica (um vizinho que começa outro bicho). Um nível também pode deixar casas vazias (`holes`) ou usar `sentence` em vez de `pairs` (frase inteira numa cobra, com palavras de enchimento sem figurinha).
 
 ```bash
 npm run levels:generate            # todos

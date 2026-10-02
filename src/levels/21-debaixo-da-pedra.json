@@ -1,0 +1,89 @@
+{
+  "id": "debaixo-da-pedra",
+  "title": "Debaixo da pedra",
+  "rows": 9,
+  "cols": 8,
+  "grid": [
+    "RTNMROLA",
+    "EDABUWMC",
+    "PIYSSYBE",
+    "SCRONSLE",
+    "YKAZYSYT",
+    "LOSGCCEL",
+    "UOPURORP",
+    "CLABIETI",
+    "KYDYCKNO"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "SPOOKY",
+        "path": [42, 50, 49, 41, 33, 32]
+      },
+      "animal": {
+        "text": "SPIDER",
+        "path": [24, 16, 17, 9, 8, 0]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SLY",
+        "path": [29, 30, 38]
+      },
+      "animal": {
+        "text": "SCORPION",
+        "path": [37, 45, 53, 54, 55, 63, 71, 70]
+      }
+    },
+    {
+      "adjective": {
+        "text": "LUCKY",
+        "path": [40, 48, 56, 64, 65]
+      },
+      "animal": {
+        "text": "LADYBUG",
+        "path": [57, 58, 66, 67, 59, 51, 43]
+      }
+    },
+    {
+      "adjective": {
+        "text": "BUSY",
+        "path": [11, 12, 20, 21]
+      },
+      "animal": {
+        "text": "BEETLE",
+        "path": [22, 23, 31, 39, 47, 46]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CRAZY",
+        "path": [25, 26, 34, 35, 36]
+      },
+      "animal": {
+        "text": "CRICKET",
+        "path": [44, 52, 60, 68, 69, 61, 62]
+      }
+    },
+    {
+      "adjective": {
+        "text": "NOSY",
+        "path": [28, 27, 19, 18]
+      },
+      "animal": {
+        "text": "ANT",
+        "path": [10, 2, 1]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CALM",
+        "path": [15, 7, 6, 14]
+      },
+      "animal": {
+        "text": "WORM",
+        "path": [13, 5, 4, 3]
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "savana",
+  "title": "Savana",
+  "rows": 8,
+  "cols": 8,
+  "grid": [
+    "AAIRTNGR",
+    "NLLOLEMU",
+    "GRYGEGPY",
+    "TIRHARIG",
+    "YNNIFFEN",
+    "ANODRLOO",
+    "LTLEAENI",
+    "OUDOPLYL"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "GENTLE",
+        "path": [21, 13, 5, 4, 12, 20]
+      },
+      "animal": {
+        "text": "GORILLA",
+        "path": [19, 11, 3, 2, 10, 9, 1]
+      }
+    },
+    {
+      "adjective": {
+        "text": "GRUMPY",
+        "path": [6, 7, 15, 14, 22, 23]
+      },
+      "animal": {
+        "text": "GIRAFFE",
+        "path": [31, 30, 29, 28, 36, 37, 38]
+      }
+    },
+    {
+      "adjective": {
+        "text": "LONELY",
+        "path": [45, 46, 54, 53, 61, 62]
+      },
+      "animal": {
+        "text": "LION",
+        "path": [63, 55, 47, 39]
+      }
+    },
+    {
+      "adjective": {
+        "text": "LOUD",
+        "path": [48, 56, 57, 58]
+      },
+      "animal": {
+        "text": "LEOPARD",
+        "path": [50, 51, 59, 60, 52, 44, 43]
+      }
+    },
+    {
+      "adjective": {
+        "text": "ANGRY",
+        "path": [0, 8, 16, 17, 18]
+      },
+      "animal": {
+        "text": "RHINO",
+        "path": [26, 27, 35, 34, 42]
+      }
+    },
+    {
+      "adjective": {
+        "text": "TINY",
+        "path": [24, 25, 33, 32]
+      },
+      "animal": {
+        "text": "ANT",
+        "path": [40, 41, 49]
+      }
+    }
+  ]
+}

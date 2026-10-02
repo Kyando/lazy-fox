@@ -1,0 +1,78 @@
+{
+  "id": "recife",
+  "title": "Recife",
+  "rows": 8,
+  "cols": 8,
+  "grid": [
+    "FNYRETSB",
+    "UNFHFIEO",
+    "SOISRCRL",
+    "GGSTEESY",
+    "YOYCPMHL",
+    "SMLARIAE",
+    "QDYSHKRN",
+    "UITLASLO"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "SALTY",
+        "path": [61, 60, 59, 58, 50]
+      },
+      "animal": {
+        "text": "SHRIMP",
+        "path": [51, 52, 44, 45, 37, 36]
+      }
+    },
+    {
+      "adjective": {
+        "text": "SOGGY",
+        "path": [16, 17, 25, 24, 32]
+      },
+      "animal": {
+        "text": "SQUID",
+        "path": [40, 48, 56, 57, 49]
+      }
+    },
+    {
+      "adjective": {
+        "text": "LONELY",
+        "path": [62, 63, 55, 47, 39, 31]
+      },
+      "animal": {
+        "text": "LOBSTER",
+        "path": [23, 15, 7, 6, 5, 4, 3]
+      }
+    },
+    {
+      "adjective": {
+        "text": "FIERCE",
+        "path": [12, 13, 14, 22, 21, 29]
+      },
+      "animal": {
+        "text": "SHARK",
+        "path": [30, 38, 46, 54, 53]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CALM",
+        "path": [35, 43, 42, 41]
+      },
+      "animal": {
+        "text": "OYSTER",
+        "path": [33, 34, 26, 27, 28, 20]
+      }
+    },
+    {
+      "adjective": {
+        "text": "FUNNY",
+        "path": [0, 8, 9, 1, 2]
+      },
+      "animal": {
+        "text": "FISH",
+        "path": [10, 18, 19, 11]
+      }
+    }
+  ]
+}

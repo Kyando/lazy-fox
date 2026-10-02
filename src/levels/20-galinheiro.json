@@ -1,0 +1,89 @@
+{
+  "id": "galinheiro",
+  "title": "Galinheiro",
+  "rows": 9,
+  "cols": 8,
+  "grid": [
+    "PIREEVUC",
+    "KCSTNOTY",
+    "YPOIODEE",
+    "KIOSYMEK",
+    "CGRDDKRR",
+    "OCOUUCRU",
+    "EARPKNYT",
+    "PILYEODP",
+    "ETOPPLUM"
+  ],
+  "pairs": [
+    {
+      "adjective": {
+        "text": "PROUD",
+        "path": [51, 50, 42, 43, 35]
+      },
+      "animal": {
+        "text": "ROOSTER",
+        "path": [34, 26, 18, 10, 11, 3, 2]
+      }
+    },
+    {
+      "adjective": {
+        "text": "PLUMP",
+        "path": [68, 69, 70, 71, 63]
+      },
+      "animal": {
+        "text": "TURKEY",
+        "path": [55, 47, 39, 31, 23, 15]
+      }
+    },
+    {
+      "adjective": {
+        "text": "POLITE",
+        "path": [67, 66, 58, 57, 65, 64]
+      },
+      "animal": {
+        "text": "PEACOCK",
+        "path": [56, 48, 49, 41, 40, 32, 24]
+      }
+    },
+    {
+      "adjective": {
+        "text": "PICKY",
+        "path": [0, 1, 9, 8, 16]
+      },
+      "animal": {
+        "text": "PIG",
+        "path": [17, 25, 33]
+      }
+    },
+    {
+      "adjective": {
+        "text": "MERRY",
+        "path": [29, 30, 38, 46, 54]
+      },
+      "animal": {
+        "text": "DONKEY",
+        "path": [62, 61, 53, 52, 60, 59]
+      }
+    },
+    {
+      "adjective": {
+        "text": "NOISY",
+        "path": [12, 20, 19, 27, 28]
+      },
+      "animal": {
+        "text": "DUCK",
+        "path": [36, 44, 45, 37]
+      }
+    },
+    {
+      "adjective": {
+        "text": "CUTE",
+        "path": [7, 6, 14, 22]
+      },
+      "animal": {
+        "text": "DOVE",
+        "path": [21, 13, 5, 4]
+      }
+    }
+  ]
+}

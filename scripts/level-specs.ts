@@ -5,12 +5,12 @@ import type { LevelSpec } from '../src/core/generate.ts';
  * After the intro, levels come in twos of the same size and pair count, so difficulty climbs in steps.
  */
 export const SPECS: LevelSpec[] = [
-  // The game's namesake and its classic partner: 15 letters fill a 3×5 exactly.
+  // The game's namesake and its classic partner: 15 letters fill a 5×3 exactly (tall, to suit a phone).
   {
     id: 'lazy-fox',
     title: 'Lazy Fox',
-    rows: 3,
-    cols: 5,
+    rows: 5,
+    cols: 3,
     pairs: [
       ['LAZY', 'FOX'],
       ['QUICK', 'DOG'],
@@ -165,6 +165,171 @@ export const SPECS: LevelSpec[] = [
       ['BRAVE', 'HORSE'],
       ['SHY', 'CHICK'],
       ['SLY', 'CAT'],
+    ],
+  },
+
+  // Hard levels: words built from the same letters, so false starts are everywhere, above all
+  // right after each trait (a neighbour that begins the wrong animal). 7×7, 5 pairs
+  {
+    id: 'sussurros',
+    title: 'Sussurros',
+    rows: 7,
+    cols: 7,
+    tricky: true,
+    pairs: [
+      ['SNEAKY', 'SNAIL'],
+      ['SASSY', 'SNAKE'],
+      ['SLEEPY', 'SLOTH'],
+      ['SLY', 'SEAL'],
+      ['SPEEDY', 'SWAN'],
+    ],
+  },
+  {
+    id: 'hora-do-cha',
+    title: 'Hora do chá',
+    rows: 7,
+    cols: 7,
+    tricky: true,
+    pairs: [
+      ['CHEEKY', 'CHICK'],
+      ['CLEVER', 'CRICKET'],
+      ['CHUBBY', 'CAT'],
+      ['CALM', 'CAMEL'],
+      ['CUTE', 'COW'],
+    ],
+  },
+
+  // 8×7, 6 pairs
+  {
+    id: 'represa',
+    title: 'Represa',
+    rows: 8,
+    cols: 7,
+    tricky: true,
+    pairs: [
+      ['HAPPY', 'BEAR'],
+      ['BUSY', 'BEAVER'],
+      ['BRAVE', 'BADGER'],
+      ['CHUBBY', 'BUNNY'],
+      ['BOLD', 'BISON'],
+      ['SHY', 'BAT'],
+    ],
+  },
+  {
+    id: 'rima-no-pasto',
+    title: 'Rima no pasto',
+    rows: 8,
+    cols: 7,
+    tricky: true,
+    pairs: [
+      ['SILLY', 'GOOSE'],
+      ['MIGHTY', 'MOOSE'],
+      ['HUNGRY', 'HORSE'],
+      ['NOSY', 'MOUSE'],
+      ['GREEDY', 'GOAT'],
+      ['SHY', 'OX'],
+    ],
+  },
+
+  // 8×8, 6 pairs
+  {
+    id: 'recife',
+    title: 'Recife',
+    rows: 8,
+    cols: 8,
+    tricky: true,
+    pairs: [
+      ['SALTY', 'SHRIMP'],
+      ['SOGGY', 'SQUID'],
+      ['LONELY', 'LOBSTER'],
+      ['FIERCE', 'SHARK'],
+      ['CALM', 'OYSTER'],
+      ['FUNNY', 'FISH'],
+    ],
+  },
+  {
+    id: 'savana',
+    title: 'Savana',
+    rows: 8,
+    cols: 8,
+    tricky: true,
+    pairs: [
+      ['GENTLE', 'GORILLA'],
+      ['GRUMPY', 'GIRAFFE'],
+      ['LONELY', 'LION'],
+      ['LOUD', 'LEOPARD'],
+      ['ANGRY', 'RHINO'],
+      ['TINY', 'ANT'],
+    ],
+  },
+
+  // 9×8, 7 pairs
+  {
+    id: 'galinheiro',
+    title: 'Galinheiro',
+    rows: 9,
+    cols: 8,
+    tricky: true,
+    pairs: [
+      ['PROUD', 'ROOSTER'],
+      ['PLUMP', 'TURKEY'],
+      ['POLITE', 'PEACOCK'],
+      ['PICKY', 'PIG'],
+      ['MERRY', 'DONKEY'],
+      ['NOISY', 'DUCK'],
+      ['CUTE', 'DOVE'],
+    ],
+  },
+  {
+    id: 'debaixo-da-pedra',
+    title: 'Debaixo da pedra',
+    rows: 9,
+    cols: 8,
+    tricky: true,
+    pairs: [
+      ['SPOOKY', 'SPIDER'],
+      ['SLY', 'SCORPION'],
+      ['LUCKY', 'LADYBUG'],
+      ['BUSY', 'BEETLE'],
+      ['CRAZY', 'CRICKET'],
+      ['NOSY', 'ANT'],
+      ['CALM', 'WORM'],
+    ],
+  },
+
+  // 9×8, 8 pairs: short words that share A, T, E, L…
+  {
+    id: 'tudo-com-a',
+    title: 'Tudo com A',
+    rows: 9,
+    cols: 8,
+    tricky: true,
+    pairs: [
+      ['SASSY', 'CAT'],
+      ['NOISY', 'BAT'],
+      ['CRAZY', 'RAT'],
+      ['MIGHTY', 'ANT'],
+      ['HASTY', 'GOAT'],
+      ['TIDY', 'TURTLE'],
+      ['STRONG', 'TIGER'],
+      ['TINY', 'OTTER'],
+    ],
+  },
+  {
+    id: 'grande-final',
+    title: 'Grande final',
+    rows: 9,
+    cols: 8,
+    tricky: true,
+    pairs: [
+      ['EAGER', 'EAGLE'],
+      ['SLEEPY', 'SHEEP'],
+      ['CALM', 'LLAMA'],
+      ['CLUMSY', 'CAMEL'],
+      ['WILD', 'WOLF'],
+      ['WISE', 'SEAL'],
+      ['SHY', 'SWAN'],
+      ['HAPPY', 'HEN'],
     ],
   },
 ];
