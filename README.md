@@ -1,4 +1,4 @@
-# Petris
+# Lazy Fox
 
 Um caça-palavras que vira Tetris. Toda letra do grid pertence a **exatamente uma palavra**; as palavras nunca cruzam nem vão na diagonal, mas podem dobrar (L, Z, O…). No fim, o grid parece um tabuleiro de Tetris colorido.
 

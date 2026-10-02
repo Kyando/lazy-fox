@@ -16,7 +16,7 @@ export interface SaveData {
   settings: { theme: ThemeChoice; sound: boolean; seenHelp: boolean; lastLevel: string | null };
 }
 
-const KEY = 'petris:v1';
+const KEY = 'lazy-fox:v1';
 
 const defaults = (): SaveData => ({
   version: 1,

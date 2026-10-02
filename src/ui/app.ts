@@ -9,7 +9,7 @@ import { openModal, toast } from './overlay.ts';
 import { Sfx } from './sfx.ts';
 import { PALETTES, sticker, stickerArt } from './sticker.ts';
 
-const GAME_NAME = 'Petris';
+const GAME_NAME = 'Lazy Fox';
 const THEME_LABEL: Record<ThemeChoice, string> = { system: 'do sistema', light: 'claro', dark: 'escuro' };
 /** Share squares in the same order as the pair palettes. */
 const SHARE_SQUARES = ['🟧', '🟩', '🟦', '🟥', '🟨', '🟪'];
@@ -82,6 +82,9 @@ export class App {
       total: CATALOG.length,
       sfx: this.sfx,
       onSolved: () => this.showWin(session),
+      onPrev: index > 0 ? () => this.openLevel(index - 1) : undefined,
+      onNext: index < CATALOG.length - 1 ? () => this.openLevel(index + 1) : undefined,
+      onAlbum: () => this.openAlbum(),
     });
     this.main.replaceChildren(this.view.el);
     this.save.settings.lastLevel = entry.def.id;

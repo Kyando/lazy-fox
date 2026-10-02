@@ -15,6 +15,11 @@ export interface LevelViewOptions {
   total: number;
   sfx: Sfx;
   onSolved(): void;
+  /** Absent on the first / last level. */
+  onPrev?: () => void;
+  onNext?: () => void;
+  /** Where "next" leads after the last level. */
+  onAlbum(): void;
 }
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -32,6 +37,7 @@ export class LevelView {
   private readonly tiles: HTMLElement[] = [];
   private readonly traceEl: HTMLElement;
   private readonly counter: HTMLElement;
+  private readonly nextBtn: HTMLButtonElement;
   private readonly album: HTMLElement;
   private readonly albumCount: HTMLElement;
   private readonly wordList: HTMLElement;
@@ -50,13 +56,22 @@ export class LevelView {
     const p = this.s.puzzle;
     const def = p.def;
 
+    // Heading flanked by arrows, so levels are always one tap away.
     this.counter = h('span', { class: 'counter' });
+    const arrow = (label: string, glyph: string, go?: () => void) =>
+      h('button', { type: 'button', class: 'icon-btn level-arrow', 'aria-label': label, title: label, disabled: !go, onclick: () => go?.() }, svg(glyph));
     const heading = h(
       'header',
       { class: 'chapter' },
-      h('p', { class: 'eyebrow' }, h('span', {}, `Nível ${opts.number} de ${opts.total}`), this.counter),
-      h('h1', {}, def.title),
-      def.subtitle ? h('p', { class: 'subtitle' }, def.subtitle) : null,
+      arrow('Nível anterior', ICONS.prev, opts.onPrev),
+      h(
+        'div',
+        { class: 'chapter-text' },
+        h('p', { class: 'eyebrow' }, h('span', {}, `Nível ${opts.number} de ${opts.total}`), this.counter),
+        h('h1', {}, def.title),
+        def.subtitle ? h('p', { class: 'subtitle' }, def.subtitle) : null,
+      ),
+      arrow('Próximo nível', ICONS.next, opts.onNext),
     );
 
     // Board: tiles underneath, the word lines in an SVG layer, letters on top.
@@ -79,13 +94,18 @@ export class LevelView {
     this.bindPointer();
 
     this.traceEl = h('div', { class: 'trace', role: 'status', 'aria-live': 'polite' });
-    this.boardWrap = h('div', { class: 'board-wrap' }, this.board);
+    // The bubble sits right above the board, where the eye already is while tracing.
+    this.boardWrap = h('div', { class: 'board-wrap' }, this.traceEl, this.board);
     const restartBtn = h(
       'button',
       { type: 'button', class: 'btn btn--tool', onclick: () => this.restart() },
       svg(ICONS.restart),
       h('span', { class: 'btn-label' }, 'Recomeçar'),
     );
+    // Shown once the level is complete: closing the win popup never leaves the player stuck.
+    this.nextBtn = opts.onNext
+      ? h('button', { type: 'button', class: 'btn btn--primary next-btn', onclick: () => opts.onNext!() }, h('span', {}, 'Próximo nível'), svg(ICONS.arrow))
+      : h('button', { type: 'button', class: 'btn btn--primary next-btn', onclick: () => opts.onAlbum() }, svg(ICONS.sticker), h('span', {}, 'Ver álbum'));
 
     // The words to find, in alphabetical order so the list never hints at which trait goes with which animal.
     const sorted = [...p.words].sort((a, b) => a.text.localeCompare(b.text));
@@ -118,8 +138,8 @@ export class LevelView {
       h(
         'div',
         { class: 'play' },
-        h('div', { class: 'board-area' }, this.traceEl, this.boardWrap, h('nav', { class: 'tools' }, restartBtn)),
         albumPanel,
+        h('div', { class: 'board-area' }, this.boardWrap, h('nav', { class: 'tools' }, restartBtn, this.nextBtn)),
       ),
     );
 
@@ -330,6 +350,8 @@ export class LevelView {
       }
     });
     this.counter.textContent = `${this.s.foundCount}/${p.words.length} palavras`;
+    this.nextBtn.hidden = !this.s.solved;
+    this.traceEl.classList.toggle('is-solved', this.s.solved);
     this.wordsCount.textContent = `${this.s.foundCount}/${p.words.length}`;
     this.albumCount.textContent = `${this.s.stickersDone}/${p.def.pairs.length}`;
     this.drawLinks();
@@ -370,7 +392,9 @@ export class LevelView {
   /** Sizes cells to the space available. */
   private fit(): void {
     const p = this.s.puzzle;
-    const { width, height } = this.boardWrap.getBoundingClientRect();
+    const wrap = this.boardWrap.getBoundingClientRect();
+    const width = wrap.width;
+    const height = wrap.height - this.traceEl.offsetHeight - 6;
     const gap = width < 480 ? 5 : 7;
     const byWidth = (width - gap * (p.cols - 1)) / p.cols;
     const byHeight = (height - gap * (p.rows - 1)) / p.rows;

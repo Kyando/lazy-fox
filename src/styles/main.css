@@ -246,7 +246,22 @@ button {
 }
 
 .chapter {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
   text-align: center;
+}
+
+.level-arrow {
+  width: 44px;
+  height: 44px;
+}
+
+.level-arrow:disabled {
+  opacity: 0.2;
+  cursor: default;
+  background: transparent;
+  border-color: transparent;
 }
 
 .eyebrow {
@@ -338,6 +353,12 @@ button {
   opacity: 0.75;
 }
 
+.trace.is-solved:empty::before {
+  content: 'Nível completo ✓';
+  color: var(--ok);
+  opacity: 1;
+}
+
 .trace-pill {
   padding: 3px 16px;
   border: 2.5px solid var(--stroke);
@@ -386,8 +407,11 @@ button {
   flex: 1 1 0;
   min-width: 0;
   min-height: 160px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .board {
@@ -712,9 +736,73 @@ button {
   animation: peel 0.75s cubic-bezier(0.3, 1.5, 0.5, 1);
 }
 
-@media (max-width: 560px) {
+/* ── Phones: words and stickers up top, the board down in thumb reach ──── */
+
+@media (max-width: 859px), (max-aspect-ratio: 5/4) {
   .stage {
-    gap: 6px;
+    --sticker: 58px;
+    gap: 8px;
+    padding-top: 6px;
+  }
+
+  .subtitle,
+  .album-head {
+    display: none;
+  }
+
+  .chapter h1 {
+    font-size: clamp(20px, 5.6vw, 28px);
+  }
+
+  .album-panel {
+    border-width: 2px;
+    border-radius: 16px;
+  }
+
+  .word-list {
+    gap: 5px;
+    padding: 8px 8px 0;
+  }
+
+  .word-chip {
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+
+  .album-scroll {
+    padding: 8px 10px 10px;
+  }
+
+  .album {
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .sticker {
+    padding: 4px;
+    border-radius: 12px;
+  }
+
+  .sticker.is-done {
+    border-width: 2.5px;
+    box-shadow:
+      0 0 0 2px var(--stroke),
+      0 3px 0 2px var(--stroke);
+  }
+
+  .sticker-art {
+    width: calc(var(--sticker) * 0.7);
+    font-size: calc(var(--sticker) * 0.46);
+  }
+
+  .sticker-name {
+    display: none;
+  }
+
+  .board-wrap {
+    justify-content: flex-end;
   }
 
   .trace {
@@ -744,6 +832,7 @@ button {
   }
 
   .album-panel {
+    order: 2;
     width: 290px;
     max-height: 100%;
     align-self: center;
@@ -764,7 +853,16 @@ button {
   flex: none;
   display: flex;
   justify-content: center;
-  gap: 6px;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn[hidden] {
+  display: none;
+}
+
+.next-btn {
+  animation: bounce-in 0.5s cubic-bezier(0.3, 1.7, 0.5, 1) both;
 }
 
 .btn {

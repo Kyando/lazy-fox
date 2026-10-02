@@ -10,6 +10,8 @@ export const ICONS = {
   check: base('<path d="m5 12.5 4.5 4.5L19 7.5"/>'),
   restart: base('<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/>'),
   close: base('<path d="m6 6 12 12"/><path d="M18 6 6 18"/>'),
+  prev: base('<path d="m15 5-7 7 7 7"/>'),
+  next: base('<path d="m9 5 7 7-7 7"/>'),
   arrow: base('<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>'),
   sticker: base('<path d="M20 12.5V6.5A2.5 2.5 0 0 0 17.5 4h-11A2.5 2.5 0 0 0 4 6.5v11A2.5 2.5 0 0 0 6.5 20h6z"/><path d="M20 12.5h-4.5a3 3 0 0 0-3 3V20"/><path d="M9 10h.01M15 10h.01"/>'),
   share: base('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5C16 4.7 15.3 4 14.5 4h-9C4.7 4 4 4.7 4 5.5v9c0 .8.7 1.5 1.5 1.5H8"/>'),
