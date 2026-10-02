@@ -139,17 +139,27 @@ describe('sentence level', () => {
   });
 });
 
-describe('holes', () => {
-  it('opens with LAZY FOX alone on a 2×4 board missing a corner', () => {
+describe('first level', () => {
+  it('opens with LAZY FOX and QUICK DOG filling a 3×5', () => {
     const def = levels[0];
-    expect(def.pairs.map((p) => p.adjective.text + p.animal.text)).toEqual(['LAZYFOX']);
-    expect(def.grid.join('').split('').filter((c) => c === '.')).toHaveLength(1);
+    expect([def.rows, def.cols]).toEqual([3, 5]);
+    expect(def.pairs.map((p) => `${p.adjective.text} ${p.animal.text}`)).toEqual(['LAZY FOX', 'QUICK DOG']);
     expect(def.extras).toBeUndefined();
+  });
+});
+
+describe('holes', () => {
+  // A 2×4 with its bottom-left corner cut off: 7 cells for LAZY FOX.
+  const def = generateLevel({ id: 'holes', title: 'Holes', rows: 2, cols: 4, holes: [4], pairs: [['LAZY', 'FOX']] }, 3)!;
+
+  it('lays words around an empty cell', () => {
+    expect(validateLevel(def)).toEqual([]);
+    expect(def.grid[1][0]).toBe('.');
   });
 
   it('rejects a level that leaves a letter cell without a word', () => {
-    const def = structuredClone(levels[0]);
-    def.grid[1] = 'QZYX'; // the hole now holds a stray letter
-    expect(validateLevel(def)).toContain('every letter must belong to exactly one word');
+    const broken = structuredClone(def);
+    broken.grid[1] = 'Q' + broken.grid[1].slice(1); // the hole now holds a stray letter
+    expect(validateLevel(broken)).toContain('every letter must belong to exactly one word');
   });
 });

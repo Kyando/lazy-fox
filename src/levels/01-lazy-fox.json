@@ -1,21 +1,32 @@
 {
   "id": "lazy-fox",
   "title": "Lazy Fox",
-  "rows": 2,
-  "cols": 4,
+  "rows": 3,
+  "cols": 5,
   "grid": [
-    "LAFO",
-    ".ZYX"
+    "QULAZ",
+    "GICFY",
+    "ODKOX"
   ],
   "pairs": [
     {
       "adjective": {
         "text": "LAZY",
-        "path": [0, 1, 5, 6]
+        "path": [2, 3, 4, 9]
       },
       "animal": {
         "text": "FOX",
-        "path": [2, 3, 7]
+        "path": [8, 13, 14]
+      }
+    },
+    {
+      "adjective": {
+        "text": "QUICK",
+        "path": [0, 1, 6, 7, 12]
+      },
+      "animal": {
+        "text": "DOG",
+        "path": [11, 10, 5]
       }
     }
   ]

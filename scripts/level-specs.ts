@@ -5,14 +5,16 @@ import type { LevelSpec } from '../src/core/generate.ts';
  * After the intro, levels come in twos of the same size and pair count, so difficulty climbs in steps.
  */
 export const SPECS: LevelSpec[] = [
-  // Just the game's namesake: one pair on a 2×4 board with a corner cut off (7 cells).
+  // The game's namesake and its classic partner: 15 letters fill a 3×5 exactly.
   {
     id: 'lazy-fox',
     title: 'Lazy Fox',
-    rows: 2,
-    cols: 4,
-    holes: [4],
-    pairs: [['LAZY', 'FOX']],
+    rows: 3,
+    cols: 5,
+    pairs: [
+      ['LAZY', 'FOX'],
+      ['QUICK', 'DOG'],
+    ],
   },
 
   // 4×4, 2 pairs
